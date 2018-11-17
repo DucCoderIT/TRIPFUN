@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import trungduc.tripfun.Activities.MapsActivity;
-import trungduc.tripfun.Activities.TripDetailsActivity;
 import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
