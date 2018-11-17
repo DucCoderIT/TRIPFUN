@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TRIPFUN</string>
+    <string name="title_activity_maps">TRIPFUN</string>
+    <string name="placename_ori">Địa chỉ đi</string>
+    <string name="placename_des">Địa chỉ đến</string>
+    <string name="next">Next</string>
+    <string name="free">FREE</string>
+</resources>

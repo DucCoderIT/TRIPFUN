@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="edt_search">#daffffff</color>
+    <color name="text_search_address">#5e5e5e</color>
+    <!--- color of item trip -->
+    <color name="bgTripItem">#9b9d9d</color>
+    <color name="bgCostItem">#31395f</color>
+    <color name="tvSeatprice">#fbf78a</color>
+    <color name="tvOriDes">#330d0d</color>
+    <color name="white">#ffffff</color>
+    <color name="yellow">#fef100</color>
+</resources>
