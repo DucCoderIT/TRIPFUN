@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:background="none"
+        android:background="@color/opacity0"
         android:text="@string/uptrip"
         android:textColor="@color/white"
         android:textSize="@dimen/trip_upfind"/>
@@ -26,7 +26,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:background="none"
+        android:background="@color/opacity0"
         android:text="@string/findtrip"
         android:textColor="@color/white"
         android:textSize="@dimen/trip_upfind"/>

@@ -15,4 +15,5 @@
     <!-- main bg -->
     <color name="uptrip_bg">#214094</color>
     <color name="findtrip_bg">#8c3734</color>
+    <color name="opacity0">#00000000</color>
 </resources>
