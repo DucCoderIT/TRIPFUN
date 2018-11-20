@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String TAG = "MapsActivity";
     public ArrayList<LatLng> listPoints;
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
-            new LatLng(-40, -168), new LatLng(71, 136));
+            new LatLng(-40, -168), new LatLng(71, 136));// position where appear when map ready
 
 
     @Override

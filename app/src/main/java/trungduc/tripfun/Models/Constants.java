@@ -1,7 +1,7 @@
 package trungduc.tripfun.Models;
 
 public class Constants {
-    public static String url_all_tripdetails = "http://192.168.1.126:80/source/TRIFUNDB/get_all_tripdetails.php";
+    public static String url_all_tripdetails = "http://192.168.1.23:80/source/TRIFUNDB/get_all_tripdetails.php";
 
     // JSON Node names
     public static final String TAG_SUCCESS = "success";

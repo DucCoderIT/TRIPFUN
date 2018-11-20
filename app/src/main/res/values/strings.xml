@@ -5,4 +5,7 @@
     <string name="placename_des">Địa chỉ đến</string>
     <string name="next">Next</string>
     <string name="free">FREE</string>
+    <string name="title_activity_hello">HelloActivity</string>
+    <string name="or">or</string>
+    <string name="hello">Hello</string>
 </resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".Activities.LoginActivity">
+    <!-- text Hello -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="@string/hello"
+        android:textSize="@dimen/hello" />
+    <!-- text login with -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Login with"
+        android:textSize="15sp"
+        />
+    <!-- form fb & gg login -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+        <Button
+            android:id="@+id/btn_FBsign"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="4.8"
+            android:background="#3C66C4"
+            android:text="Facebook"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="0.4"
+            />
+        <Button
+            android:id="@+id/btn_GGsign"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="4.8"
+            android:background="#CF4332"
+            android:text="Google"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+    <!-- or -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:gravity="center">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="4.5"
+            android:background="@color/white" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/or"
+            android:gravity="center"
+            android:textAllCaps="true" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="4.5"
+            android:background="@color/white" />
+    </LinearLayout>
+    <!-- form default login -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+</LinearLayout>
