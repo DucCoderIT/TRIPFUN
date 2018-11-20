@@ -6,6 +6,13 @@
     <string name="next">Next</string>
     <string name="free">FREE</string>
     <string name="title_activity_hello">HelloActivity</string>
-    <string name="or">or</string>
-    <string name="hello">Hello</string>
+    <string name="hello">Xin chào</string>
+    <string name="or">hoặc</string>
+    <string name="username">Tên tài khoản</string>
+    <string name="password">Mật khẩu</string>
+    <string name="loginwith">Đăng nhập bằng</string>
+    <string name="signin">Đăng nhập</string>
+    <string name="signup">Đăng ký tài khoản</string>
+    <string name="forgotpass">Quên mật khẩu?</string>
+    <string name="notaccount">Không có tài khoản?</string>
 </resources>
