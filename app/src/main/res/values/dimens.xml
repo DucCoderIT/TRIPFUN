@@ -1,4 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <!-- text size -->
     <dimen name="hello">30sp</dimen>
+    <dimen name="trip_upfind">25sp</dimen>
 </resources>

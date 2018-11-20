@@ -5,11 +5,14 @@
     <color name="colorAccent">#D81B60</color>
     <color name="edt_search">#daffffff</color>
     <color name="text_search_address">#5e5e5e</color>
-    <!--- color of item trip -->
+    <!--- color of trip details -->
     <color name="bgTripItem">#9b9d9d</color>
     <color name="bgCostItem">#31395f</color>
     <color name="tvSeatprice">#fbf78a</color>
     <color name="tvOriDes">#330d0d</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#fef100</color>
+    <!-- main bg -->
+    <color name="uptrip_bg">#214094</color>
+    <color name="findtrip_bg">#8c3734</color>
 </resources>

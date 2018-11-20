@@ -15,4 +15,6 @@
     <string name="signup">Đăng ký tài khoản</string>
     <string name="forgotpass">Quên mật khẩu?</string>
     <string name="notaccount">Không có tài khoản?</string>
+    <string name="uptrip">Đăng chuyến</string>
+    <string name="findtrip">TÌm chuyến</string>
 </resources>
