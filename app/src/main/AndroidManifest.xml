@@ -33,7 +33,9 @@
             android:required="false" />
 
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.InputTripDetailsActivity"></activity>
+        <activity android:name=".Activities.InputTripDetailsActivity" />
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.ShowTripDetailsActivity"></activity>
     </application>
 
 </manifest>

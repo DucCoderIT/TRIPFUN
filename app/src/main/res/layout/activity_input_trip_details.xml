@@ -13,8 +13,10 @@
         android:layout_height="0dp"
         android:layout_weight="1.2"
         android:gravity="center"
-        android:text="Điền các thông tin bên dưới"
+        android:text="Điền một số thông tin"
+        android:textStyle="bold"
         android:textSize="20sp"
+        android:textColor="@color/black"
         />
     <!-- position of user-->
     <LinearLayout
@@ -41,12 +43,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Chủ xe"/>
+                android:text="Chủ xe"
+                android:textStyle="bold"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hành khách"/>
+                android:text="Hành khách"
+                android:textStyle="bold"/>
         </RadioGroup>
     </LinearLayout>
     <!-- vehicle -->
@@ -74,12 +78,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Xe hơi"/>
+                android:text="Xe hơi"
+                android:textStyle="bold"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Xe máy"/>
+                android:text="Xe máy"
+                android:textStyle="bold"/>
         </RadioGroup>
     </LinearLayout>
     <!-- seat -->
