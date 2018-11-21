@@ -5,6 +5,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,8 +24,12 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -51,6 +58,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,37 +70,41 @@ import trungduc.tripfun.Adapters.PlaceAutocompleteAdapter;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener {
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) { }
 
     private GoogleMap mMap;
     private View mapView;
     private GoogleApiClient mGoogleApiClient;
     private Marker mm_ori, mm_des; // create 2 marker
-    private Polyline line_direction;
     private static final int LOCATION_REQUEST = 500;
     private static final float DEFAULT_ZOOM = 15f;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private AutoCompleteTextView mSearchTextOri,mSearchTextDes;
+    private EditText edtDatePicker,edtTimePicker;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
+    private Button btnNext;
     private Boolean mLocationPermissionsGranted = false;
     private String TAG = "MapsActivity";
     public ArrayList<LatLng> listPoints;
+    // position where appear when map ready
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
-            new LatLng(-40, -168), new LatLng(71, 136));// position where appear when map ready
-
+            new LatLng(-40, -168), new LatLng(71, 136));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        mSearchTextOri =(AutoCompleteTextView) findViewById(R.id.edt_ori_search);
-        mSearchTextDes =(AutoCompleteTextView) findViewById(R.id.edt_des_search);
+        // declare view
+        Declare();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         initMap();
+        //create new list points arr
         listPoints = new ArrayList<>();
+        //call void date picker
+        DateTimePicker();
     }
-
+    //when map on ready
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -124,7 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 30);
         }
-        init();
+        initAutoComplete();
    // EVENTS
         //lisener long click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -170,8 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
-
+    //draw direction by gg maps
     private void geoLocate(AutoCompleteTextView mSearchText){
         Log.d(TAG, "geoLocate: geolocating");
 
@@ -195,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     address.getAddressLine(0));
         }
     }
-
+    // move camera to position
     private void moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -242,7 +253,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return responseString;
     }
-
+    //get request
     private String getRequestUrl(LatLng origin, LatLng dest) {
         //Value of origin
         String str_org = "origin=" + origin.latitude +","+origin.longitude;
@@ -263,8 +274,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return url;
     }
-
-
+    //
     public class TaskRequestDirections extends AsyncTask<String, Void, String> {
 
         @Override
@@ -286,7 +296,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             taskParser.execute(s);
         }
     }
-
+    //
     public class TaskParser extends AsyncTask<String, Void, List<List<HashMap<String, String>>> > {
 
         @Override
@@ -340,15 +350,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //search location
     public void location_search(View view){
         switch (view.getId()){
-
             case R.id.search_ori:
                 AutoCompleteTextView addressFieldOri = (AutoCompleteTextView) findViewById(R.id.edt_ori_search);
                 String address_ori = addressFieldOri.getText().toString();
-
                 List<Address> addressList_ori = null;
                 if (mm_ori!=null){
                     mm_ori.remove();
-
                 }
                 MarkerOptions userMarkerOptions_ori = new MarkerOptions();
 
@@ -356,10 +363,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     hideSoftKeyboard(MapsActivity.this);
                     Geocoder geocoder_ori = new Geocoder(this);
-
                     try {
                         addressList_ori = geocoder_ori.getFromLocationName(address_ori, 6);
-
                         if (addressList_ori != null){
                             for (int i = 0; i < addressList_ori.size() ; i++) {
                                 Address userAddress_ori = addressList_ori.get(i);
@@ -386,15 +391,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.search_des:
                 AutoCompleteTextView addressFieldDes = (AutoCompleteTextView) findViewById(R.id.edt_des_search);
                 String address_des = addressFieldDes.getText().toString();
-
                 List<Address> addressList_des = null;
-
                 if (mm_des!=null){
                     mm_des.remove();
-
                 }
                 MarkerOptions userMarkerOptions_des = new MarkerOptions();
-
                 if (!TextUtils.isEmpty(address_des)){
 
                     hideSoftKeyboard(MapsActivity.this);
@@ -408,14 +409,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             for (int i = 0; i < addressList_des.size() ; i++) {
                                 Address userAddress_des = addressList_des.get(i);
                                 LatLng latLng_des = new LatLng(userAddress_des.getLatitude(),userAddress_des.getLongitude());
-
                                 userMarkerOptions_des.position(latLng_des);
                                 userMarkerOptions_des.title(address_des);
                                 userMarkerOptions_des.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 mm_des = mMap.addMarker(userMarkerOptions_des);
                                 camera_move(latLng_des);
                             }
-
                         }else {
                             Toast.makeText(this, "Khong tim thay vi tri nay...!", Toast.LENGTH_SHORT).show();
                         }
@@ -427,9 +426,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(this, "Vui long nhap ten vi tri can tim...!", Toast.LENGTH_SHORT).show();
                 }
                 break;
-
         }
-        if (mm_ori!= null && mm_des!=null) directions();
     }
     //move camera move
     public void camera_move(LatLng latLng){
@@ -440,19 +437,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
-
-    //draw directions
-    public void directions(){
-        if (line_direction!=null){
-            line_direction.remove();
-        }
-        line_direction = mMap.addPolyline(new PolylineOptions()
-        .add(new LatLng(mm_ori.getPosition().latitude,mm_ori.getPosition().longitude), new LatLng(mm_des.getPosition().latitude,mm_des.getPosition().longitude))
-        .width(15)
-        .color(Color.MAGENTA));
-    }
-   //init autocomplete
-    private void init() {
+   //initialize autocomplete search
+    private void initAutoComplete() {
         Log.d(TAG, "init: initializing");
 
         mGoogleApiClient = new GoogleApiClient
@@ -505,8 +491,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
-
-    //init map
+    //initialize map
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -549,5 +534,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    //date & time picker
+    public void DateTimePicker(){
+        edtDatePicker.setInputType(InputType.TYPE_NULL);
+        edtTimePicker.setInputType(InputType.TYPE_NULL);
+        edtDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                //date picker dialog
+                datePickerDialog = new DatePickerDialog(MapsActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
+                                edtDatePicker.setText(dayOfMonth+"/"+(monthOfyear + 1)+"/"+year);
+                            }
+                        },year,month,day);
+                datePickerDialog.show();
+            }
+        });
+        edtTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                timePickerDialog = new TimePickerDialog(MapsActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                edtTimePicker.setText(""+ hourOfDay+":"+ minute);
+                            }
+                        },hour,minute,true);
+                timePickerDialog.show();
+            }
+        });
+    }
+    // declare view
+    public void Declare(){
+        mSearchTextOri =(AutoCompleteTextView) findViewById(R.id.edt_ori_search);
+        mSearchTextDes =(AutoCompleteTextView) findViewById(R.id.edt_des_search);
+        edtDatePicker = (EditText) findViewById(R.id.edtDatePicker);
+        edtTimePicker = (EditText) findViewById(R.id.edtTimePicker);
     }
 }

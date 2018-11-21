@@ -18,9 +18,7 @@
         android:id="@+id/search_form"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="10dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/white_border">
         <AutoCompleteTextView
@@ -82,28 +80,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/btnNext"
         android:orientation="vertical"
-        android:layout_above="@id/btnNext">
+        android:layout_margin="10dp"
+        android:background="@drawable/white_border">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <DatePicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
-                android:calendarViewShown="false">
-
-            </DatePicker>
+                android:layout_width="20dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_today_black_24dp" />
+            <EditText
+                android:id="@+id/edtDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingStart="10dp"
+                android:inputType="date"
+                android:background="@null"
+                android:text="10/10/2018"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_access_time_black_24dp"/>
+            <EditText
+                android:id="@+id/edtTimePicker"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingStart="10dp"
+                android:inputType="time"
+                android:background="@null"
+                android:text="10:10"/>
         </LinearLayout>
     </LinearLayout>
     <!-- Button next -->
