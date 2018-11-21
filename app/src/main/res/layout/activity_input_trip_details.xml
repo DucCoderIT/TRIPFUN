@@ -141,7 +141,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.3"
         android:orientation="horizontal"
         android:weightSum="10">
         <TextView
@@ -155,10 +155,113 @@
             android:layout_height="match_parent"
             android:layout_weight="7"
             android:orientation="vertical"
-            android:weightSum="2">
+            android:paddingEnd="10dp"
+            android:weightSum="10">
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="0dp"
+                android:layout_weight="4.5"
+                android:layout_gravity="top"
+                android:textAlignment="center"
+                android:background="@color/bgTripItem"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4.5"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="50000"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:background="@color/bgTripItem"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text=" / 1 ghế"/>
+            </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+    <!-- luggage -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:gravity="center_vertical"
+        android:weightSum="10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Hành lý:"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:hint="Có hành lý"
+            android:background="@color/bgTripItem"/>
+    </LinearLayout>
+    <!-- plan -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:gravity="center_vertical"
+        android:weightSum="10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Kế hoạch:"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:textAlignment="center"
+            android:background="@color/bgTripItem"/>
+    </LinearLayout>
+    <!-- with gender -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:gravity="center_vertical"
+        android:weightSum="10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Muốn đi cùng:"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:textAlignment="center"
+            android:background="@color/bgTripItem"/>
+    </LinearLayout>
+    <!-- button up trip -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng chuyến"/>
     </LinearLayout>
 </LinearLayout>
