@@ -3,6 +3,8 @@ package trungduc.tripfun.Activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import trungduc.tripfun.R;
+
 public class InputTripDetailsActivity extends AppCompatActivity {
 
     @Override
