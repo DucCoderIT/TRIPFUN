@@ -24,7 +24,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="5.7"
         android:paddingStart="20dp"
         android:orientation="vertical"
         android:weightSum="6">
@@ -43,11 +43,13 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
             <EditText
+                android:id="@+id/edtName_SUp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:paddingStart="0dp"
                 android:gravity="center_vertical"
+                android:inputType="text"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
@@ -69,11 +71,13 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
             <EditText
+                android:id="@+id/edtEmail_SUp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:paddingStart="0dp"
                 android:gravity="center_vertical"
+                android:inputType="textEmailAddress"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
@@ -95,11 +99,13 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
             <EditText
+                android:id="@+id/edtPhoneNumber_SUp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:paddingStart="0dp"
                 android:gravity="center_vertical"
+                android:inputType="number"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
@@ -117,19 +123,21 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="Mật khẩu:"
+                android:text="Tên tài khoản:"
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
             <EditText
+                android:id="@+id/edtUsername_SUp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:paddingStart="0dp"
                 android:gravity="center_vertical"
+                android:inputType="text"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:hint="*********"
+                android:hint="admin"
                 android:background="@color/opacity0"/>
         </LinearLayout>
         <LinearLayout
@@ -143,24 +151,54 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
+                android:text="Mật khẩu:"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+            <EditText
+                android:id="@+id/edtPassword_SUp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:paddingStart="0dp"
+                android:gravity="center_vertical"
+                android:inputType="textPassword"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:hint="*********"
+                android:background="@color/opacity0"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal"
+            android:weightSum="10">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
                 android:text="Năm sinh:"
                 android:textSize="14sp"
                 android:textColor="@color/white"/>
             <EditText
+                android:id="@+id/edtBirth_SUp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:inputType="number"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="16sp"
-                android:hint="1990"
+                android:text="1990"
                 android:background="@color/white"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:orientation="horizontal"
             android:weightSum="10">
             <TextView
@@ -172,10 +210,12 @@
                 android:textSize="14sp"
                 android:textColor="@color/white"/>
             <EditText
+                android:id="@+id/edtGender_SUp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="Nam"
+                android:text="Nam"
+                android:inputType="text"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
                 android:textAlignment="center"
@@ -187,11 +227,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1.2"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:gravity="center">
         <Button
+            android:id="@+id/btnCreateUser"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="@string/signup"
@@ -203,7 +244,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1.6"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingStart="10dp"
@@ -216,6 +257,7 @@
             android:textSize="14sp"
             android:textColor="@color/white"/>
         <Button
+            android:id="@+id/btnSignIn_SUp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="@string/signin"

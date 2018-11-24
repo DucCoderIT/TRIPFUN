@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -63,11 +64,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import trungduc.tripfun.Models.DirectionsParser;
+import trungduc.tripfun.Models.Tripdetails;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Adapters.PlaceAutocompleteAdapter;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) { }
@@ -83,11 +85,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText edtDatePicker,edtTimePicker;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
-    private Button btnNext;
+    private Button btnNextToDetails,btnFindTrip_H;
     private Boolean mLocationPermissionsGranted = false;
     private String TAG = "MapsActivity";
     public ArrayList<LatLng> listPoints;
-    // position where appear when map ready
+    // set position where appear when map ready
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
 
@@ -96,13 +98,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // declare view
-        Declare();
+        handle();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         initMap();
         //create new list points arr
         listPoints = new ArrayList<>();
         //call void date picker
         DateTimePicker();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnFindTrip_M:
+                break;
+            case R.id.btnNextToDetails:
+
+                String ori = mSearchTextOri.getText().toString();
+                String des = mSearchTextDes.getText().toString();
+                String date = edtDatePicker.getText().toString();
+                String time = edtTimePicker.getText().toString();
+                Toast.makeText(this, ori+" "+des+" "+date+" "+time, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(),InputTripDetailsActivity.class);
+                intent.putExtra("ori",ori);
+                intent.putExtra("des",des);
+                intent.putExtra("date",date);
+                intent.putExtra("time",time);
+                startActivity(intent);
+                break;
+        }
     }
     //when map on ready
     @Override
@@ -271,8 +296,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String output = "json";
         //Create url to request
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
-
         return url;
+    }
+    //request permission
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult: called.");
+        mLocationPermissionsGranted = false;
+
+        switch(requestCode){
+            case LOCATION_REQUEST:{
+                if(grantResults.length > 0){
+                    for(int i = 0; i < grantResults.length; i++){
+                        if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                            mLocationPermissionsGranted = false;
+                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
+                            return;
+                        }
+                    }
+                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
+                    mLocationPermissionsGranted = true;
+                    //initialize our map
+                    initMap();
+                }
+            }
+        }
     }
     //
     public class TaskRequestDirections extends AsyncTask<String, Void, String> {
@@ -499,31 +548,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapsActivity.this);
     }
 
-    //request permission
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult: called.");
-        mLocationPermissionsGranted = false;
-
-        switch(requestCode){
-            case LOCATION_REQUEST:{
-                if(grantResults.length > 0){
-                    for(int i = 0; i < grantResults.length; i++){
-                        if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
-                            mLocationPermissionsGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
-                            return;
-                        }
-                    }
-                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
-                    mLocationPermissionsGranted = true;
-                    //initialize our map
-                    initMap();
-                }
-            }
-        }
-    }
     //hide keyboard
     public void hideSoftKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -575,10 +599,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
     // declare view
-    public void Declare(){
+    public void handle(){
         mSearchTextOri =(AutoCompleteTextView) findViewById(R.id.edt_ori_search);
         mSearchTextDes =(AutoCompleteTextView) findViewById(R.id.edt_des_search);
         edtDatePicker = (EditText) findViewById(R.id.edtDatePicker);
         edtTimePicker = (EditText) findViewById(R.id.edtTimePicker);
+        btnFindTrip_H = (Button) findViewById(R.id.btnFindTrip_H);
+        btnNextToDetails = (Button) findViewById(R.id.btnNextToDetails);
+        btnNextToDetails.setOnClickListener(this);
+        //btnFindTrip_H.setOnClickListener(this);
     }
 }

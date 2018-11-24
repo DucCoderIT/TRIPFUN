@@ -80,7 +80,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btnNext"
+        android:layout_above="@id/btnNextToDetails"
         android:orientation="vertical"
         android:layout_margin="10dp"
         android:background="@drawable/white_border">
@@ -123,7 +123,7 @@
     </LinearLayout>
     <!-- Button next -->
     <Button
-        android:id="@+id/btnNext"
+        android:id="@+id/btnNextToDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -133,5 +133,15 @@
         android:textColor="@color/text_search_address"
         android:background="@drawable/white_border"
         />
-
+    <Button
+        android:id="@+id/btnFindTrip_M"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/findtrip"
+        android:textColor="@color/text_search_address"
+        android:background="@drawable/white_border"
+        />
 </RelativeLayout>

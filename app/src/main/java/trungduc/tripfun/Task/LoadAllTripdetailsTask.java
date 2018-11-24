@@ -23,8 +23,6 @@ import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
 import trungduc.tripfun.Models.Tripdetails;
-
-
 /**
  * Created by Han on 29/12/2016.
  */
@@ -79,7 +77,6 @@ public class LoadAllTripdetailsTask extends AsyncTask<String, String, String> {
                     tripdetail.setSeatprice(Integer.parseInt(seatprice));
                     listTripdetails.add(tripdetail);
                 }
-
             } else {
 //                // no products found
 //                // Launch Add New product Activity

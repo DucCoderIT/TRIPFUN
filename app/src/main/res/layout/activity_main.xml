@@ -9,6 +9,7 @@
     android:background="@drawable/main_background_gradient"
     tools:context=".Activities.MainActivity">
     <Button
+        android:id="@+id/btnUpTrip_H"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -22,6 +23,7 @@
         android:layout_height="2dp"
         android:background="@color/white"/>
     <Button
+        android:id="@+id/btnFindTrip_H"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
