@@ -1,9 +1,5 @@
 package trungduc.tripfun.Activities;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +25,6 @@ import java.util.Map;
 
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
-import trungduc.tripfun.Task.LoginTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "LoginActivity";

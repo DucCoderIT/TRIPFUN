@@ -21,6 +21,7 @@ public class Tripdetails {
     public String wgender;
 
 
+
     public Tripdetails() {
     }
 

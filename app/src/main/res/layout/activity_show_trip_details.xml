@@ -40,6 +40,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_directions_black_24dp"/>
             <TextView
+                android:id="@+id/tvOri_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -60,6 +61,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_directions_black_24dp"/>
             <TextView
+                android:id="@+id/tvDes_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -80,6 +82,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_today_black_24dp"/>
             <TextView
+                android:id="@+id/tvDate_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -100,6 +103,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_access_time_black_24dp"/>
             <TextView
+                android:id="@+id/tvTime_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -120,6 +124,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_info_black_24dp"/>
             <TextView
+                android:id="@+id/tvPosition_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -141,6 +146,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_info_black_24dp"/>
             <TextView
+                android:id="@+id/tvVehicle_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -161,6 +167,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_info_black_24dp"/>
             <TextView
+                android:id="@+id/tvService_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -169,11 +176,20 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tvSeatPrice_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="2.5"
                 android:paddingStart="10dp"
-                android:text="50.000 / 1 ghế"
+                android:text="50.000"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:paddingStart="10dp"
+                android:text="/1 ghế"
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
         </LinearLayout>
@@ -197,9 +213,10 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tvEmptySeat_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.4"
+                android:layout_weight="1.5"
                 android:paddingStart="10dp"
                 android:text="1"
                 android:textSize="18sp"
@@ -213,6 +230,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tvFullSeat_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
@@ -241,6 +259,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tvLuggage_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -269,6 +288,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tvPlan_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -297,6 +317,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tvWGender_STD"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -306,6 +327,7 @@
                 android:textColor="@color/white"/>
         </LinearLayout>
         <Button
+            android:id="@+id/btnGo_STD"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

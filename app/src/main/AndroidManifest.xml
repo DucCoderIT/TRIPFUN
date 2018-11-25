@@ -14,14 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.AllTripDetailsActivity" />
-        <activity android:name=".Activities.MapsActivity"></activity>
-        <activity android:name=".Activities.LoginActivity">
-
-        </activity>
+        <activity android:name=".Activities.AllTripDetailsActivity"/>
+        <activity android:name=".Activities.MapsActivity" />
+        <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.InputTripDetailsActivity" />
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.ShowTripDetailsActivity" />
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.AllTripFoundActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -31,8 +33,7 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".Activities.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".Activities.FindTripActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

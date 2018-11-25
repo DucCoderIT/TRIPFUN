@@ -17,23 +17,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import trungduc.tripfun.Activities.MapsActivity;
+import trungduc.tripfun.Activities.ShowTripDetailsActivity;
 import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
 import trungduc.tripfun.Models.Tripdetails;
-/**
- * Created by Han on 29/12/2016.
- */
+
 public class LoadAllTripdetailsTask extends AsyncTask<String, String, String> {
     Context context;
     ListView lvTripdetails;
     ProgressDialog pDialog;
     JSONParser jParser;
-    ArrayList<Tripdetails> listTripdetails;
+    public ArrayList<Tripdetails> listTripdetails;
     JSONArray tripdetails = null;
     TripdetailsAdapter tripdetailsAdapter;
+
     public LoadAllTripdetailsTask(Context context, ListView lvTripdetails) {
         this.context = context;
         this.lvTripdetails = lvTripdetails;
@@ -51,6 +49,7 @@ public class LoadAllTripdetailsTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         // Building Parameters
+
         List<HashMap<String, String>> params = new ArrayList<>();
         JSONObject jsonObject =
                 jParser.makeHttpRequest(Constants.url_all_tripdetails, "GET", params);
@@ -104,7 +103,7 @@ public class LoadAllTripdetailsTask extends AsyncTask<String, String, String> {
             public void onItemClick(AdapterView<?> adapterView, View view,int i, long l)
             {
                 int trip_id = listTripdetails.get(i).getTripID();
-                Intent intent = new Intent(context,MapsActivity.class);
+                Intent intent = new Intent(context,ShowTripDetailsActivity.class);
                 intent.putExtra(Constants.TAG_TRIPID, trip_id);
                 ((Activity) context).startActivityForResult(intent, 100);
             }

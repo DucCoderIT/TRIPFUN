@@ -3,6 +3,7 @@ package trungduc.tripfun.Models;
 
 public class Constants {
     public static String url_all_tripdetails = "http://192.168.1.126:80/source/TRIFUNDB/get_all_tripdetails.php";
+    public static String url_search_trip = "http://192.168.1.126:80/source/TRIFUNDB/search_trip.php";
     public static String url_user_control = "http://192.168.1.126:80/source/TRIFUNDB/user_control.php";
     public static String url_trip_control = "http://192.168.1.126:80/source/TRIFUNDB/trip_control.php";
 
