@@ -15,26 +15,31 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.AllTripDetailsActivity" />
-        <activity android:name=".Activities.MapsActivity">
+        <activity android:name=".Activities.MapsActivity"></activity>
+        <activity android:name=".Activities.LoginActivity">
 
-        </activity>
-        <activity android:name=".Activities.LoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Activities.InputTripDetailsActivity" />
         <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".Activities.ShowTripDetailsActivity"/>
+        <activity android:name=".Activities.ShowTripDetailsActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
+        <activity android:name=".Activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
