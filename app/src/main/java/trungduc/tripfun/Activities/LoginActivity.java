@@ -29,6 +29,7 @@ import java.util.Map;
 
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
+import trungduc.tripfun.Task.LoginTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "LoginActivity";
@@ -99,20 +100,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSignIn:
-                request = new StringRequest(Request.Method.POST, constants.url_login, new Response.Listener<String>() {
+                request = new StringRequest(Request.Method.POST, constants.url_user_control, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.names().get(0).equals("success")){ //get name response after equals success
-                                Toast.makeText(LoginActivity.this, "SUCCESS "+
+                                Toast.makeText(getApplicationContext(), "SUCCESS "+
                                         jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                                 finish();
                             }else{
-                                Toast.makeText(LoginActivity.this, "Error"+
+                                Toast.makeText(getApplicationContext(), "Error"+
                                         jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -143,6 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 finish();
         }
     }
+
     private void handle(){
         edtUserName = (EditText) findViewById(R.id.edtUsername);
         edtPassword = (EditText) findViewById(R.id.edtPassword);

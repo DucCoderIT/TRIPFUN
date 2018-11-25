@@ -3,6 +3,7 @@ package trungduc.tripfun.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,12 +14,26 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
 
-public class InputTripDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class InputTripDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,View.OnClickListener {
     private RadioGroup group_position_IDe,group_vehicle_IDe;
     private RadioButton rdBtn_owner,rdBtn_customer,rdBtn_car,rdBtn_moto;
     private Spinner sp_service,sp_luggage,sp_plan,sp_wgender;
@@ -32,6 +47,9 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
     private String user_luggage;
     private String user_plan;
     private String user_wgender;
+    private RequestQueue requestQueue;
+    private StringRequest request;
+    private Constants constants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,35 +65,84 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
         user_luggage = luggage[0];
         user_service = plan[0];
         user_wgender = wgender[0];
+    }
 
-        btn_Uptrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_Uptrip_IDe:
+                Log.d("MAIN", "onClick: ");
                 int selected_position = group_position_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_position = (RadioButton) findViewById(selected_position);
                 int selected_vehicle = group_vehicle_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_vehicle = (RadioButton) findViewById(selected_vehicle);
 
                 Intent intent = getIntent();
-                String user_ori = intent.getStringExtra("ori");
-                String user_des = intent.getStringExtra("des");
-                String user_date = intent.getStringExtra("date");
-                String user_time = intent.getStringExtra("time");
-                String user_emptyseat = edt_emptyseat.getText().toString();
-                String user_fullseat = edt_fullseat.getText().toString();
-                String user_seatprice = edt_seatprice.getText().toString();
-                String user_position = radioButton_position.getText().toString();
-                String user_vehicle = radioButton_vehicle.getText().toString();
+                final String user_ori = intent.getStringExtra("ori");
+                final String user_des = intent.getStringExtra("des");
+                final String user_date = intent.getStringExtra("date");
+                final String user_time = intent.getStringExtra("time");
+                final String user_emptyseat = edt_emptyseat.getText().toString();
+                final String user_fullseat = edt_fullseat.getText().toString();
+                String seatprice = edt_seatprice.getText().toString(); // can not input 0
+                final String user_seatprice;
+                if (seatprice.equals("0")){
+                    user_seatprice = seatprice +" ";
+                }else {user_seatprice = seatprice; }
+                final String user_position = radioButton_position.getText().toString();
+                final String user_vehicle = radioButton_vehicle.getText().toString();
+                if (!(user_ori.equals("") && user_des.equals("") && user_date.equals("") && user_time.equals("") && user_emptyseat.equals("")
+                        && user_fullseat.equals("") && user_seatprice.equals("") && user_position.equals("") && user_vehicle.equals(""))){
+                    Log.d("MAIN", "onClick: oke");
+                    Toast.makeText(getApplicationContext(), user_ori+" "+user_des+" "+user_date+" "+user_time
+                            +" "+user_emptyseat+" "+user_fullseat+" "+user_seatprice+" "+user_position+" "+user_vehicle
+                            +" "+user_service+" "+user_luggage+" "+user_plan+" "+user_wgender, Toast.LENGTH_LONG).show();
+                    request = new StringRequest(Request.Method.POST, constants.url_trip_control, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject object = new JSONObject(response);
+                                if (object.names().get(0).equals("success")){
+                                    Toast.makeText(InputTripDetailsActivity.this,
+                                            "Đăng chuyến thành công!\nHãy chờ người book chuyến của bạn nha", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(InputTripDetailsActivity.this,MainActivity.class));
+                                    finish();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getApplicationContext(), user_ori+"  "+user_des+"  "+user_date+"  "+user_time+"  "+
-                        user_emptyseat+"  "+user_fullseat+"  "+user_seatprice+"  "+user_position+"  "+user_vehicle+"  "+
-                        user_service+"  "+user_luggage+"  "+user_plan+"  "+user_wgender, Toast.LENGTH_LONG).show();
-            }
-        });
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> hashMap = new HashMap<String, String>();
+                            hashMap.put("origin",user_ori);
+                            hashMap.put("destination",user_des);
+                            hashMap.put("date",user_date);
+                            hashMap.put("time",user_time);
+                            hashMap.put("typevehicle",user_vehicle);
+                            hashMap.put("position",user_position);
+                            hashMap.put("emptyseat",user_emptyseat);
+                            hashMap.put("fullseat",user_fullseat);
+                            hashMap.put("seatprice",user_seatprice);
+                            hashMap.put("service",user_service);
+                            hashMap.put("luggage",user_luggage);
+                            hashMap.put("plan",user_plan);
+                            hashMap.put("wgender",user_wgender);
+                            hashMap.put("createUser","Yes");
+                            return hashMap;
+                        }
+                    };
+                    requestQueue.add(request);
+                }
+                break;
+        }
     }
-
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -124,5 +191,7 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
         edt_fullseat = (EditText) findViewById(R.id.edt_fullseat_IDe);
         edt_seatprice = (EditText) findViewById(R.id.edt_seatprice_IDe);
         btn_Uptrip = (Button)   findViewById(R.id.btn_Uptrip_IDe);
+        btn_Uptrip.setOnClickListener(this);
+        requestQueue = Volley.newRequestQueue(this);
     }
 }

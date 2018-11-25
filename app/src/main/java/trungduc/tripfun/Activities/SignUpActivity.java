@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 final String email = edtEmail_SUp.getText().toString();
                 if (!(name.equals("") && email.equals("")&& username.equals("") && password.equals("") && phonenumber.equals("")
                         && birth.equals("") && gender.equals(""))){
-                    request = new StringRequest(Request.Method.POST, constants.url_login, new Response.Listener<String>() {
+                    request = new StringRequest(Request.Method.POST, constants.url_user_control, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
