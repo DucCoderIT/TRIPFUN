@@ -15,11 +15,14 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import trungduc.tripfun.Activities.FindTripActivity;
 import trungduc.tripfun.Activities.ShowTripDetailsActivity;
 import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
@@ -36,6 +39,11 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
     JSONArray tripdetails = null;
     TripdetailsAdapter tripdetailsAdapter;
     String origin_find, destination_find;
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+    SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+
 
     public LoadFindTripTask(Context context, ListView lvTripdetails,String origin_find,String destination_find) {
         this.origin_find = origin_find;
@@ -84,13 +92,18 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                     String plan = jsonObjectGet.getString(Constants.TAG_PLAN);
                     String wgender = jsonObjectGet.getString(Constants.TAG_WGENDER);
                     Log.d("LOG ORI DES: ", "doInBackground: "+origin+" "+destination);
-                    if (origin.equalsIgnoreCase(origin_find) && destination.equalsIgnoreCase(destination_find)) {
+                    if (origin.equalsIgnoreCase(origin_find) || destination.equalsIgnoreCase(destination_find)) {
                         // creating new tripdetail
+                        String[] separated = date.split("-");
+                        String myDate= separated[2] +"/" +separated[1]+"/" +separated[0];
+
+                        java.util.Date ParseDate = format.parse(myDate);
+
                         Tripdetails tripdetail = new Tripdetails();
                         tripdetail.setTripID(Integer.parseInt(trip_id));
                         tripdetail.setOrigin(origin);
                         tripdetail.setDestination(destination);
-                        //tripdetail.setDate(Date.valueOf(date));
+                        tripdetail.setDate(ParseDate);
                         tripdetail.setTime(Time.valueOf(time));
                         tripdetail.setTypevehicle(typevehicle);
                         tripdetail.setPosition(position);
@@ -104,14 +117,12 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                         listTripdetails.add(tripdetail);
                     }
                 }
-            } else {
-//                // no products found
-//                // Launch Add New product Activity
-//                Intent intent = new Intent(context,AddProductActivity.class);
-//                // Closing all previous activities
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                context.startActivity(intent);
-                Toast.makeText(context, "Không có chuyến đi nào tồn tại!", Toast.LENGTH_SHORT).show();
+            } if (listTripdetails.size() == 0){
+                // no products found
+                // Launch Add New product Activity
+                Intent intent = new Intent(context,FindTripActivity.class);
+                // Closing all previous activities
+                context.startActivity(intent);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,8 +145,9 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                 String trip_id = String.valueOf(listTripdetails.get(i).getTripID());
                 String trip_ori = listTripdetails.get(i).getOrigin();
                 String trip_des = listTripdetails.get(i).getDestination();
-                //String trip_date = listTripdetails.get(i).getDate().toString();
-                String trip_time = listTripdetails.get(i).getTime().toString();
+                //format date and time to dd/MM/yyyy & HH:mm
+                String trip_date = format.format(listTripdetails.get(i).getDate());
+                String trip_time = formatTime.format(listTripdetails.get(i).getTime());
                 String trip_vehicle = listTripdetails.get(i).getTypevehicle();
                 String trip_position = listTripdetails.get(i).getPosition();
                 String trip_emptyseat = String.valueOf(listTripdetails.get(i).getEmptyseat());
@@ -150,7 +162,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                 intent.putExtra(Constants.TAG_TRIPID, trip_id);
                 intent.putExtra(Constants.TAG_ORIGIN, trip_ori);
                 intent.putExtra(Constants.TAG_DESTINATION, trip_des);
-                //intent.putExtra(Constants.TAG_DATE, trip_date);
+                intent.putExtra(Constants.TAG_DATE, trip_date);
                 intent.putExtra(Constants.TAG_TIME, trip_time);
                 intent.putExtra(Constants.TAG_TYPEVEHICLE, trip_vehicle);
                 intent.putExtra(Constants.TAG_POSITION, trip_position);

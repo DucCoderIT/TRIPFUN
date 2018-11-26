@@ -7,22 +7,20 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import trungduc.tripfun.R;
-import trungduc.tripfun.Task.LoadFindTripTask;
+import trungduc.tripfun.Task.LoadUserTask;
 
-public class AllTripFoundActivity extends AppCompatActivity {
-    private ListView lvallTrip;
-    LoadFindTripTask loadfindtriptask;
+public class UserActivity extends AppCompatActivity {
+    LoadUserTask loadUserTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_trip_found);
+        setContentView(R.layout.activity_user);
         Intent intent = getIntent();
         final String origin = intent.getStringExtra("ori");
         final String destination = intent.getStringExtra("des");
-        lvallTrip = (ListView) findViewById(R.id.lvAllTrip_F);
-        loadfindtriptask = new LoadFindTripTask(AllTripFoundActivity.this,lvallTrip,origin,destination);
-        loadfindtriptask.execute();
+        loadUserTask = new LoadUserTask(UserActivity.this);
+        loadUserTask.execute();
     }
 
     @Override

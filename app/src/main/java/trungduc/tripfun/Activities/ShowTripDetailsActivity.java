@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Task.LoadFindTripTask;
@@ -29,7 +31,7 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
         String trip_id = intent.getStringExtra(Constants.TAG_TRIPID);
         String trip_ori = intent.getStringExtra(Constants.TAG_ORIGIN);
         String trip_des = intent.getStringExtra(Constants.TAG_DESTINATION);
-        //String trip_date = intent.getStringExtra(Constants.TAG_DATE);
+        String trip_date = intent.getStringExtra(Constants.TAG_DATE);
         String trip_time = intent.getStringExtra(Constants.TAG_TIME);
         String trip_vehicle = intent.getStringExtra(Constants.TAG_TYPEVEHICLE);
         String trip_position = intent.getStringExtra(Constants.TAG_POSITION);
@@ -46,7 +48,7 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
         //get and set value for trip
         tvOri_STD.setText(trip_ori);
         tvDes_STD.setText(trip_des);
-        //tvDate_STD.setText(trip_date);
+        tvDate_STD.setText(trip_date);
         tvTime_STD.setText(trip_time);
         tvPosition_STD.setText(trip_position);
         tvVehicle_STD.setText(trip_vehicle);

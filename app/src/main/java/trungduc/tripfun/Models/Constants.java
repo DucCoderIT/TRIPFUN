@@ -3,9 +3,10 @@ package trungduc.tripfun.Models;
 
 public class Constants {
     public static String url_all_tripdetails = "http://192.168.1.126:80/source/TRIFUNDB/get_all_tripdetails.php";
-    public static String url_search_trip = "http://192.168.1.126:80/source/TRIFUNDB/search_trip.php";
     public static String url_user_control = "http://192.168.1.126:80/source/TRIFUNDB/user_control.php";
     public static String url_trip_control = "http://192.168.1.126:80/source/TRIFUNDB/trip_control.php";
+    public static String url_get_user = "http://192.168.1.126:80/source/TRIFUNDB/get_userdetails.php";
+
 
     // JSON Node names
     public static final String TAG_SUCCESS = "success";
@@ -28,5 +29,16 @@ public class Constants {
     public static final String TAG_PLAN = "plan";
     public static final String TAG_WGENDER = "wgender";
     //============================================
+    public static final String TAG_USERDETAILS = "userdetails";
+    public static final String TAG_USERID = "userID";
+    public static final String TAG_USERNAME = "name";
+    public static final String TAG_USERBIRTH = "birth";
+    public static final String TAG_USERPHONENUMBER = "phonenumber";
+    public static final String TAG_USERGENDER = "gender";
+    public static final String TAG_USER_USERNAME = "username";
+    public static final String TAG_USER_PASSWORD = "password";
+    public static final String TAG_USEREMAIL = "email";
+    public static final String TAG_USERSTATUS = "status";
+
     public static final String TAG_DESCRIPTION = "description";
 }

@@ -148,15 +148,19 @@ public class FindTripActivity extends FragmentActivity implements OnMapReadyCall
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnFindTrip_FT:
-
                 String ori = mSearchTextOri.getText().toString();
                 String des = mSearchTextDes.getText().toString();
-                Toast.makeText(this, ori+" "+des, Toast.LENGTH_SHORT).show();
+                if (!(ori.equals("") && des.equals(""))){
+                    Toast.makeText(this, ori+" "+des, Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getApplicationContext(),AllTripFoundActivity.class);
-                intent.putExtra("ori",ori);
-                intent.putExtra("des",des);
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(),AllTripFoundActivity.class);
+                    intent.putExtra("ori",ori);
+                    intent.putExtra("des",des);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "Vui lòng điền địa chỉ!", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
