@@ -34,6 +34,7 @@ import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
 
 public class InputTripDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,View.OnClickListener {
+    private String TAG = "InputTripDetailsActivity";
     private RadioGroup group_position_IDe,group_vehicle_IDe;
     private RadioButton rdBtn_owner,rdBtn_customer,rdBtn_car,rdBtn_moto;
     private Spinner sp_service,sp_luggage,sp_plan,sp_wgender;
@@ -50,6 +51,7 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
     private RequestQueue requestQueue;
     private StringRequest request;
     private Constants constants;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,29 +73,40 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_Uptrip_IDe:
-                Log.d("MAIN", "onClick: ");
+
+                Log.d(TAG, "onClick: ");
                 int selected_position = group_position_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_position = (RadioButton) findViewById(selected_position);
                 int selected_vehicle = group_vehicle_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_vehicle = (RadioButton) findViewById(selected_vehicle);
-
+                //get user id
+                final String user_id = String.valueOf(mainActivity.userLocal.getUser_id());
+                //get data from previous activity
                 Intent intent = getIntent();
                 final String user_ori = intent.getStringExtra("ori");
                 final String user_des = intent.getStringExtra("des");
-                final String user_date = intent.getStringExtra("date");
+                //format date
+                String date = intent.getStringExtra("date");
+                String[] splitDate = date.split("/");
+                final String user_date = splitDate[2]+"-"+splitDate[1]+"-"+splitDate[0];
+
                 final String user_time = intent.getStringExtra("time");
                 final String user_emptyseat = edt_emptyseat.getText().toString();
                 final String user_fullseat = edt_fullseat.getText().toString();
+
                 String seatprice = edt_seatprice.getText().toString(); // can not input 0
+                //set seatprice  = 0+" "
                 final String user_seatprice;
                 if (seatprice.equals("0")){
                     user_seatprice = seatprice +" ";
                 }else {user_seatprice = seatprice; }
+
                 final String user_position = radioButton_position.getText().toString();
                 final String user_vehicle = radioButton_vehicle.getText().toString();
+
                 if (!(user_ori.equals("") && user_des.equals("") && user_date.equals("") && user_time.equals("") && user_emptyseat.equals("")
                         && user_fullseat.equals("") && user_seatprice.equals("") && user_position.equals("") && user_vehicle.equals(""))){
-                    Log.d("MAIN", "onClick: oke");
+                    Log.d(TAG, "onClick: oke");
                     Toast.makeText(getApplicationContext(), user_ori+" "+user_des+" "+user_date+" "+user_time
                             +" "+user_emptyseat+" "+user_fullseat+" "+user_seatprice+" "+user_position+" "+user_vehicle
                             +" "+user_service+" "+user_luggage+" "+user_plan+" "+user_wgender, Toast.LENGTH_LONG).show();
@@ -105,7 +118,17 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                                 if (object.names().get(0).equals("success")){
                                     Toast.makeText(InputTripDetailsActivity.this,
                                             "Đăng chuyến thành công!\nHãy chờ người book chuyến của bạn nha", Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(InputTripDetailsActivity.this,MainActivity.class));
+                                    // send data to MainActivity
+                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.putExtra(Constants.TAG_USERID,String.valueOf(mainActivity.userLocal.getUser_id()));
+                                    intent.putExtra(Constants.TAG_USERBIRTH,mainActivity.userLocal.getUsername());
+                                    intent.putExtra(Constants.TAG_USERBIRTH,mainActivity.userLocal.getBirth());
+                                    intent.putExtra(Constants.TAG_USERPHONENUMBER,mainActivity.userLocal.getPhonenumber());
+                                    intent.putExtra(Constants.TAG_USERGENDER,mainActivity.userLocal.getGender());
+                                    intent.putExtra(Constants.TAG_USEREMAIL,mainActivity.userLocal.getEmail());
+                                    intent.putExtra(Constants.TAG_USERSTATUS,mainActivity.userLocal.getStatus());
+                                    startActivityForResult(intent,100);
                                     finish();
                                 }
                             } catch (JSONException e) {
@@ -121,6 +144,7 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             HashMap<String,String> hashMap = new HashMap<String, String>();
+                            hashMap.put("userID",user_id);
                             hashMap.put("origin",user_ori);
                             hashMap.put("destination",user_des);
                             hashMap.put("date",user_date);

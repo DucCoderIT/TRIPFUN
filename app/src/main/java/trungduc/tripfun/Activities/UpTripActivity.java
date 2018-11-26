@@ -149,14 +149,13 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnFindTrip_M:
-                break;
-            case R.id.btnNextToDetails:
 
+            case R.id.btnNextToDetails:
                 String ori = mSearchTextOri.getText().toString();
                 String des = mSearchTextDes.getText().toString();
                 String date = edtDatePicker.getText().toString();
                 String time = edtTimePicker.getText().toString();
+
                 Toast.makeText(this, ori+" "+des+" "+date+" "+time, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(),InputTripDetailsActivity.class);

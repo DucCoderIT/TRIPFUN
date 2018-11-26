@@ -66,8 +66,15 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
         // Building Parameters
 
         List<HashMap<String, String>> params = new ArrayList<>();
+        HashMap<String,String> hashMap = new HashMap<String,String>();
+        hashMap.put("origin",origin_find);
+        HashMap<String,String> hashMap2 = new HashMap<String,String>();
+        hashMap2.put("destiantion",destination_find);
+        params.add(hashMap);
+        params.add(hashMap2);
+
         JSONObject jsonObject =
-                jParser.makeHttpRequest(Constants.url_all_tripdetails, "GET", params);
+                jParser.makeHttpRequest(Constants.url_all_tripdetails, "POST", params);
         try {
             int success = jsonObject.getInt("success");
             if (success == 1) {
@@ -78,6 +85,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                     // Storing each json item in variable
                     //CHANGE ++++=================================
                     String trip_id = jsonObjectGet.getString(Constants.TAG_TRIPID);
+                    String user_id = jsonObjectGet.getString(Constants.TAG_USERID);
                     String origin = jsonObjectGet.getString(Constants.TAG_ORIGIN);
                     String destination = jsonObjectGet.getString(Constants.TAG_DESTINATION);
                     String date = jsonObjectGet.getString(Constants.TAG_DATE);
@@ -92,7 +100,6 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                     String plan = jsonObjectGet.getString(Constants.TAG_PLAN);
                     String wgender = jsonObjectGet.getString(Constants.TAG_WGENDER);
                     Log.d("LOG ORI DES: ", "doInBackground: "+origin+" "+destination);
-                    if (origin.equalsIgnoreCase(origin_find) || destination.equalsIgnoreCase(destination_find)) {
                         // creating new tripdetail
                         String[] separated = date.split("-");
                         String myDate= separated[2] +"/" +separated[1]+"/" +separated[0];
@@ -101,6 +108,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
 
                         Tripdetails tripdetail = new Tripdetails();
                         tripdetail.setTripID(Integer.parseInt(trip_id));
+                        tripdetail.setUserID(Integer.parseInt(user_id));
                         tripdetail.setOrigin(origin);
                         tripdetail.setDestination(destination);
                         tripdetail.setDate(ParseDate);
@@ -115,7 +123,6 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                         tripdetail.setPlan(plan);
                         tripdetail.setWgender(wgender);
                         listTripdetails.add(tripdetail);
-                    }
                 }
             } if (listTripdetails.size() == 0){
                 // no products found
@@ -143,6 +150,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
             public void onItemClick(AdapterView<?> adapterView, View view,int i, long l)
             {
                 String trip_id = String.valueOf(listTripdetails.get(i).getTripID());
+                String trip_user_id = String.valueOf(listTripdetails.get(i).getUserID());
                 String trip_ori = listTripdetails.get(i).getOrigin();
                 String trip_des = listTripdetails.get(i).getDestination();
                 //format date and time to dd/MM/yyyy & HH:mm
@@ -160,6 +168,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
 
                 Intent intent = new Intent(context,ShowTripDetailsActivity.class);
                 intent.putExtra(Constants.TAG_TRIPID, trip_id);
+                intent.putExtra(Constants.TAG_USERID, trip_user_id);
                 intent.putExtra(Constants.TAG_ORIGIN, trip_ori);
                 intent.putExtra(Constants.TAG_DESTINATION, trip_des);
                 intent.putExtra(Constants.TAG_DATE, trip_date);

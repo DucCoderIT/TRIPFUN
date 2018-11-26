@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Tripdetails {
     public int tripID;
+    public int userID;
     public String origin;
     public String destination;
     public Date date;
@@ -25,8 +26,9 @@ public class Tripdetails {
     public Tripdetails() {
     }
 
-    public Tripdetails(int tripID, String origin, String destination, Date date, Time time, String typevehicle, String position, int emptyseat, int fullseat, int seatprice, String service, String luggage, String suggest, String plan, String wgender) {
+    public Tripdetails(int tripID, int userID, String origin, String destination, Date date, Time time, String typevehicle, String position, int emptyseat, int fullseat, int seatprice, String service, String luggage, String suggest, String plan, String wgender) {
         this.tripID = tripID;
+        this.userID = userID;
         this.origin = origin;
         this.destination = destination;
         this.date = date;
@@ -49,6 +51,14 @@ public class Tripdetails {
 
     public void setTripID(int tripID) {
         this.tripID = tripID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getOrigin() {

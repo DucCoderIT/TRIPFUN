@@ -3,6 +3,7 @@ package trungduc.tripfun.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,12 +14,16 @@ import java.text.SimpleDateFormat;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Task.LoadFindTripTask;
+import trungduc.tripfun.Task.LoadUserByIDTask;
 
 public class ShowTripDetailsActivity extends AppCompatActivity implements View.OnClickListener{
+    private String TAG = "ShowTripDetailsActivity";
     private LoadFindTripTask loadFindTripTask;
     private TextView tvOri_STD,tvDes_STD,tvDate_STD,tvTime_STD,tvPosition_STD,tvVehicle_STD,tvService_STD,
                     tvSeatPrice_STD,tvEmptySeat_STD,tvFullSeat_STD,tvLuggage_STD,tvPlan_STD,tvWGender_STD; //STD = Show Trip Details
     private Button btnGo_STD;
+    private MainActivity mainActivity;
+    private String trip_userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,7 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
         //get value
         Intent intent = getIntent();
         String trip_id = intent.getStringExtra(Constants.TAG_TRIPID);
+        trip_userID = intent.getStringExtra(Constants.TAG_USERID);
         String trip_ori = intent.getStringExtra(Constants.TAG_ORIGIN);
         String trip_des = intent.getStringExtra(Constants.TAG_DESTINATION);
         String trip_date = intent.getStringExtra(Constants.TAG_DATE);
@@ -62,9 +68,49 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnGo_STD:
+                Log.d(TAG, "onClick: "+ mainActivity.userLocal.getUser_id());
+                LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(getApplicationContext(),trip_userID);
+                loadUserByIDTask.execute();
+                finish();
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package trungduc.tripfun.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,16 +14,20 @@ import android.widget.Toast;
 import trungduc.tripfun.Fragments.UserInfoFragment;
 import trungduc.tripfun.Fragments.UpTripFragment;
 import trungduc.tripfun.Fragments.FindTripFragment;
+import trungduc.tripfun.Models.User;
 import trungduc.tripfun.R;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    public static User userTrip = new User();
+    public static User userLocal = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //userLocal = MainActivity.userLocal;
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -74,7 +79,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Toast.makeText(this, "Back button is " +
+                    "locked!", Toast.LENGTH_SHORT).show();
         }
     }
 }

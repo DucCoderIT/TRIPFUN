@@ -25,6 +25,8 @@ import java.util.Map;
 
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
+import trungduc.tripfun.Task.LoadUserByIDTask;
+import trungduc.tripfun.Task.LoadUserTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "LoginActivity";
@@ -32,7 +34,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnSignIn,btnSignUp;
     private RequestQueue requestQueue;
     private StringRequest request;
-    private Constants constants;
     private int countPressBack = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,18 +97,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSignIn:
-                request = new StringRequest(Request.Method.POST, constants.url_user_control, new Response.Listener<String>() {
+                request = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.names().get(0).equals("success")){ //get name response after equals success
-                                Toast.makeText(getApplicationContext(), "SUCCESS "+
-                                        jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
+                                Toast.makeText(getApplicationContext(), jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
+                                final String username = edtUserName.getText().toString();
+                                final String password = edtPassword.getText().toString();
+                                LoadUserTask loadUserTask = new LoadUserTask(LoginActivity.this,username,password);
+                                loadUserTask.execute();
                             }else{
                                 Toast.makeText(getApplicationContext(), "Error"+
                                         jsonObject.getString("error"), Toast.LENGTH_SHORT).show();

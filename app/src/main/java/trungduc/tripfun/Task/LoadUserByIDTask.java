@@ -1,6 +1,7 @@
 package trungduc.tripfun.Task;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,26 +14,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import trungduc.tripfun.Activities.HomeActivity;
 import trungduc.tripfun.Activities.MainActivity;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
 import trungduc.tripfun.Models.User;
 
 
-public class LoadUserTask extends AsyncTask<String, String, String> {
+public class LoadUserByIDTask extends AsyncTask<String, String, String> {
     Context context;
     ProgressDialog pDialog;
     JSONParser jParser;
     public ArrayList<User> listUserDetails;
     JSONArray userdetails = null;
-    String username , password, userID ;
+    String userID ;
 
 
 
-    public LoadUserTask(Context context,String username,String password) {
+    public LoadUserByIDTask(Context context,String userID) {
         this.context = context;
-        this.username = username;
-        this.password = password;
+        this.userID = userID;
         jParser = new JSONParser();
         listUserDetails = new ArrayList<>();
     }
@@ -40,20 +41,18 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+//        pDialog = new ProgressDialog(context);
+//        pDialog.setMessage("Please wait...");
+//        pDialog.setCancelable(false);
+//        pDialog.show();
     }
     @Override
     protected String doInBackground(String... strings) {
         // Building Parameters
             List<HashMap<String, String>> params = new ArrayList<>();
             HashMap<String,String> hashMap = new HashMap<String, String>();
-            hashMap.put("username",username);
-            HashMap<String,String> hashMap2 = new HashMap<String, String>();
-            hashMap2.put("password",password);
-            params.add(hashMap);params.add(hashMap2);
+            hashMap.put("userID",userID);
+            params.add(hashMap);
 
             JSONObject jsonObject =
                     jParser.makeHttpRequest(Constants.url_get_user, "POST", params);
@@ -102,20 +101,18 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (pDialog.isShowing()) {
-            pDialog.dismiss();
-        }
-            Intent intent = new Intent(context,MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(Constants.TAG_USERID,String.valueOf(listUserDetails.get(0).getUser_id()));
-            intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getUsername());
-            intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getBirth());
-            intent.putExtra(Constants.TAG_USERPHONENUMBER,listUserDetails.get(0).getPhonenumber());
-            intent.putExtra(Constants.TAG_USERGENDER,listUserDetails.get(0).getGender());
-            intent.putExtra(Constants.TAG_USEREMAIL,listUserDetails.get(0).getEmail());
-            intent.putExtra(Constants.TAG_USERSTATUS,listUserDetails.get(0).getStatus());
-
-            ((Activity) context).startActivityForResult(intent, 100);
-            ((Activity) context).finish();
+//        if (pDialog.isShowing()) {
+//            pDialog.dismiss();
+//        }
+        Intent intent = new Intent(context,HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Constants.TAG_USERID,String.valueOf(listUserDetails.get(0).getUser_id()));
+        intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getUsername());
+        intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getBirth());
+        intent.putExtra(Constants.TAG_USERPHONENUMBER,listUserDetails.get(0).getPhonenumber());
+        intent.putExtra(Constants.TAG_USERGENDER,listUserDetails.get(0).getGender());
+        intent.putExtra(Constants.TAG_USEREMAIL,listUserDetails.get(0).getEmail());
+        intent.putExtra(Constants.TAG_USERSTATUS,listUserDetails.get(0).getStatus());
+        context.startActivity(intent);
     }
 }

@@ -3,6 +3,7 @@ package trungduc.tripfun.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import trungduc.tripfun.R;
 import trungduc.tripfun.Task.LoadFindTripTask;
 
 public class AllTripFoundActivity extends AppCompatActivity {
+    private String TAG = "AllTripFoundActivity";
     private ListView lvallTrip;
     LoadFindTripTask loadfindtriptask;
 
@@ -33,6 +35,42 @@ public class AllTripFoundActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
     }
 
     @Override
