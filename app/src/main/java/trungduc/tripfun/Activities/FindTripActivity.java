@@ -103,6 +103,48 @@ public class FindTripActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        finish();
+        super.onBackPressed();
+    }
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnFindTrip_FT:
@@ -406,7 +448,6 @@ public class FindTripActivity extends FragmentActivity implements OnMapReadyCall
             mSearchTextOri.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                    //Log.d(TAG, "onEditorAction: ok");
                     if (actionId == EditorInfo.IME_ACTION_SEARCH
                             || actionId == EditorInfo.IME_ACTION_DONE
                             || actionId == EditorInfo.IME_ACTION_GO
@@ -429,7 +470,6 @@ public class FindTripActivity extends FragmentActivity implements OnMapReadyCall
             mSearchTextDes.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                    //Log.d(TAG, "onEditorAction: ok");
                     if (actionId == EditorInfo.IME_ACTION_SEARCH
                             || actionId == EditorInfo.IME_ACTION_DONE
                             || actionId == EditorInfo.IME_ACTION_GO

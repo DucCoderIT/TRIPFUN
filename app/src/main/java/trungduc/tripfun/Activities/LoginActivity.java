@@ -46,14 +46,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
     // override back button
-    @Override
-    public void onBackPressed(){
-        countPressBack += 1;
-        if (countPressBack == 2){
-            finish();
-            moveTaskToBack(true);
-        }else Toast.makeText(this, "Nhấn thêm 1 lần để thoát!", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onStart() {
@@ -89,6 +81,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    public void onBackPressed(){
+        countPressBack += 1;
+        if (countPressBack == 2){
+            finish();
+            moveTaskToBack(true);
+        }else Toast.makeText(this, "Nhấn thêm 1 lần để thoát!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

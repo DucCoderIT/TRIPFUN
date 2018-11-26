@@ -46,7 +46,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONException;
@@ -64,12 +63,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import trungduc.tripfun.Models.DirectionsParser;
-import trungduc.tripfun.Models.Tripdetails;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Adapters.PlaceAutocompleteAdapter;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
+public class UpTripActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) { }
@@ -87,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TimePickerDialog timePickerDialog;
     private Button btnNextToDetails,btnFindTrip_H;
     private Boolean mLocationPermissionsGranted = false;
-    private String TAG = "MapsActivity";
+    private String TAG = "UpTripActivity";
     public ArrayList<LatLng> listPoints;
     // set position where appear when map ready
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
@@ -96,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_up_trip);
         // declare view
         handle();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -107,6 +105,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         DateTimePicker();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+        super.onBackPressed();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -162,7 +201,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             layoutParams.setMargins(0, 0, 30, 30);
         }
         initAutoComplete();
-   // EVENTS
+        // EVENTS
         //lisener long click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -201,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                hideSoftKeyboard(MapsActivity.this);
+                hideSoftKeyboard(UpTripActivity.this);
 //                mm_ori.setPosition(latLng);
 //                camera_ori(latLng);
             }
@@ -213,7 +252,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         String searchString = mSearchText.getText().toString();
 
-        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        Geocoder geocoder = new Geocoder(UpTripActivity.this);
         List<Address> list = new ArrayList<>();
         try{
             list = geocoder.getFromLocationName(searchString, 1);
@@ -396,97 +435,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
     //-------------//
-    //search location
-    public void location_search(View view){
-        switch (view.getId()){
-            case R.id.search_ori:
-                AutoCompleteTextView addressFieldOri = (AutoCompleteTextView) findViewById(R.id.edt_ori_search);
-                String address_ori = addressFieldOri.getText().toString();
-                List<Address> addressList_ori = null;
-                if (mm_ori!=null){
-                    mm_ori.remove();
-                }
-                MarkerOptions userMarkerOptions_ori = new MarkerOptions();
-
-                if (!TextUtils.isEmpty(address_ori)){
-
-                    hideSoftKeyboard(MapsActivity.this);
-                    Geocoder geocoder_ori = new Geocoder(this);
-                    try {
-                        addressList_ori = geocoder_ori.getFromLocationName(address_ori, 6);
-                        if (addressList_ori != null){
-                            for (int i = 0; i < addressList_ori.size() ; i++) {
-                                Address userAddress_ori = addressList_ori.get(i);
-                                LatLng latLng_ori = new LatLng(userAddress_ori.getLatitude(),userAddress_ori.getLongitude());
-
-                                userMarkerOptions_ori.position(latLng_ori);
-                                userMarkerOptions_ori.title(address_ori);
-                                userMarkerOptions_ori.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                                mm_ori = mMap.addMarker(userMarkerOptions_ori);
-                                camera_move(latLng_ori);
-                            }
-
-                        }else {
-                            Toast.makeText(this, "Khong tim thay vi tri nay...!", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    Toast.makeText(this, "Vui long nhap ten vi tri can tim...!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.search_des:
-                AutoCompleteTextView addressFieldDes = (AutoCompleteTextView) findViewById(R.id.edt_des_search);
-                String address_des = addressFieldDes.getText().toString();
-                List<Address> addressList_des = null;
-                if (mm_des!=null){
-                    mm_des.remove();
-                }
-                MarkerOptions userMarkerOptions_des = new MarkerOptions();
-                if (!TextUtils.isEmpty(address_des)){
-
-                    hideSoftKeyboard(MapsActivity.this);
-
-                    Geocoder geocoder_des = new Geocoder(this);
-
-                    try {
-                        addressList_des = geocoder_des.getFromLocationName(address_des, 6);
-
-                        if (addressList_des != null){
-                            for (int i = 0; i < addressList_des.size() ; i++) {
-                                Address userAddress_des = addressList_des.get(i);
-                                LatLng latLng_des = new LatLng(userAddress_des.getLatitude(),userAddress_des.getLongitude());
-                                userMarkerOptions_des.position(latLng_des);
-                                userMarkerOptions_des.title(address_des);
-                                userMarkerOptions_des.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                                mm_des = mMap.addMarker(userMarkerOptions_des);
-                                camera_move(latLng_des);
-                            }
-                        }else {
-                            Toast.makeText(this, "Khong tim thay vi tri nay...!", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    Toast.makeText(this, "Vui long nhap ten vi tri can tim...!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-    //move camera move
-    public void camera_move(LatLng latLng){
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng)      // Sets the center of the map to Mountain View
-                .tilt(30)
-                .zoom(16)                   // Sets the zoom
-                .build();                   // Creates a CameraPosition from the builder
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-    }
-   //initialize autocomplete search
+    //initialize autocomplete search
     private void initAutoComplete() {
         Log.d(TAG, "init: initializing");
 
@@ -505,12 +454,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mSearchTextOri.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                    //Log.d(TAG, "onEditorAction: ok");
                     if (actionId == EditorInfo.IME_ACTION_SEARCH
                             || actionId == EditorInfo.IME_ACTION_DONE
+                            || actionId == EditorInfo.IME_ACTION_GO
+                            || actionId == EditorInfo.IME_ACTION_NEXT
                             || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                            || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                        //Log.d(TAG, "onEditorAction: ok2");
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_NAVIGATE_NEXT
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_NUMPAD_ENTER) {
                         //execute our method for searching
                         geoLocate(mSearchTextOri);
                     }
@@ -524,12 +475,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mSearchTextDes.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                    //Log.d(TAG, "onEditorAction: ok");
                     if (actionId == EditorInfo.IME_ACTION_SEARCH
                             || actionId == EditorInfo.IME_ACTION_DONE
+                            || actionId == EditorInfo.IME_ACTION_GO
+                            || actionId == EditorInfo.IME_ACTION_NEXT
                             || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                            || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                        //Log.d(TAG, "onEditorAction: ok2");
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_NAVIGATE_NEXT
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_NUMPAD_ENTER) {
                         //execute our method for searching
                         geoLocate(mSearchTextDes);
                     }
@@ -545,7 +498,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapView = mapFragment.getView();
-        mapFragment.getMapAsync(MapsActivity.this);
+        mapFragment.getMapAsync(UpTripActivity.this);
     }
 
     //hide keyboard
@@ -571,7 +524,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 //date picker dialog
-                datePickerDialog = new DatePickerDialog(MapsActivity.this,
+                datePickerDialog = new DatePickerDialog(UpTripActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
@@ -587,7 +540,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 final Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
-                timePickerDialog = new TimePickerDialog(MapsActivity.this,
+                timePickerDialog = new TimePickerDialog(UpTripActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

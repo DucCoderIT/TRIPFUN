@@ -82,6 +82,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    public void onBackPressed(){
+        countPressBack += 1;
+        if (countPressBack == 2){
+            finish();
+            moveTaskToBack(true);
+        }else Toast.makeText(this, "Nhấn thêm 1 lần để thoát!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnCreateUser:
@@ -136,15 +146,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onBackPressed(){
-        countPressBack += 1;
-        if (countPressBack == 2){
-            finish();
-            moveTaskToBack(true);
-        }else Toast.makeText(this, "Nhấn thêm 1 lần để thoát!", Toast.LENGTH_SHORT).show();
-
-    }
 
     private void handle(){
         btnSignIn = (Button) findViewById(R.id.btnSignIn_SUp);
