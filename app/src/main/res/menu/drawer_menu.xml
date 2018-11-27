@@ -5,30 +5,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_message"
-            android:icon="@drawable/ic_message"
-            android:title="Đăng chuyến" />
+            android:id="@+id/nav_manager_trip"
+            android:icon="@drawable/ic_directions_black_24dp"
+            android:title="Quản lý chuyến đi" />
         <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_chat"
-            android:title="Tìm chuyến" />
+            android:id="@+id/nav_trip_statistics"
+            android:icon="@drawable/ic_biker_black_24dp"
+            android:title="Thống kê chuyến đi" />
         <item
-            android:id="@+id/nav_chat"
+            android:id="@+id/nav_user_profile"
             android:icon="@drawable/ic_profile"
             android:title="Thông tin của bạn" />
+        <item
+            android:id="@+id/nav_app_info"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="Thông tin ứng dụng" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Chức năng">
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_share"
-                android:title="Share" />
+                android:icon="@drawable/places_ic_search"
+                android:title="Tìm chuyến" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_send"
-                android:title="Send" />
+                android:icon="@drawable/ic_car_black_24dp"
+                android:title="Đăng chuyến" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/places_ic_clear"
+                android:title="Đăng xuất" />
         </menu>
     </item>
-
 </menu>

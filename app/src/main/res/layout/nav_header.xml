@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="@color/colorAccent"
+    android:background="@drawable/nav_hearder_bg_gradient"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
@@ -14,6 +14,7 @@
         android:src="@mipmap/ic_launcher_round" />
 
     <TextView
+        android:id="@+id/tv_username_H"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -21,10 +22,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:id="@+id/tv_userphonenumber_H"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="07 6666 4474" />
     <TextView
+        android:id="@+id/tv_useremail_H"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="it.coder.duc@gmail.com" />

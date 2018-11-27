@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import trungduc.tripfun.R;
 
 
-public class UpTripFragment extends Fragment {
+public class TripStatisticsFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_up_trip, container, false);
+        return inflater.inflate(R.layout.fragment_trip_statistics, container, false);
     }
 }

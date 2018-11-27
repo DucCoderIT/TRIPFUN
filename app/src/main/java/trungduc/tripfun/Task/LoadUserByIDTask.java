@@ -107,7 +107,7 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
         Intent intent = new Intent(context,HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.TAG_USERID,String.valueOf(listUserDetails.get(0).getUser_id()));
-        intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getUsername());
+        intent.putExtra(Constants.TAG_USERNAME,listUserDetails.get(0).getUsername());
         intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getBirth());
         intent.putExtra(Constants.TAG_USERPHONENUMBER,listUserDetails.get(0).getPhonenumber());
         intent.putExtra(Constants.TAG_USERGENDER,listUserDetails.get(0).getGender());

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 
 import trungduc.tripfun.Models.Constants;
+import trungduc.tripfun.Models.User;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Task.LoadFindTripTask;
 import trungduc.tripfun.Task.LoadUserByIDTask;
@@ -22,8 +23,8 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
     private TextView tvOri_STD,tvDes_STD,tvDate_STD,tvTime_STD,tvPosition_STD,tvVehicle_STD,tvService_STD,
                     tvSeatPrice_STD,tvEmptySeat_STD,tvFullSeat_STD,tvLuggage_STD,tvPlan_STD,tvWGender_STD; //STD = Show Trip Details
     private Button btnGo_STD;
-    private MainActivity mainActivity;
     private String trip_userID;
+    public static User userLocal = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_show_trip_details);
         //init view
         handle();
+
         //get value
         Intent intent = getIntent();
         String trip_id = intent.getStringExtra(Constants.TAG_TRIPID);
@@ -107,7 +109,7 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnGo_STD:
-                Log.d(TAG, "onClick: "+ mainActivity.userLocal.getUser_id());
+                Log.d(TAG, "onClick: "+ userLocal.getUser_id());
                 LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(getApplicationContext(),trip_userID);
                 loadUserByIDTask.execute();
                 finish();

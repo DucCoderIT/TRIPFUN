@@ -50,8 +50,6 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
     private String user_wgender;
     private RequestQueue requestQueue;
     private StringRequest request;
-    private Constants constants;
-    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +78,7 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                 int selected_vehicle = group_vehicle_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_vehicle = (RadioButton) findViewById(selected_vehicle);
                 //get user id
-                final String user_id = String.valueOf(mainActivity.userLocal.getUser_id());
+                final String user_id = String.valueOf(MainActivity.userLocal.getUser_id());
                 //get data from previous activity
                 Intent intent = getIntent();
                 final String user_ori = intent.getStringExtra("ori");
@@ -110,7 +108,7 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                     Toast.makeText(getApplicationContext(), user_ori+" "+user_des+" "+user_date+" "+user_time
                             +" "+user_emptyseat+" "+user_fullseat+" "+user_seatprice+" "+user_position+" "+user_vehicle
                             +" "+user_service+" "+user_luggage+" "+user_plan+" "+user_wgender, Toast.LENGTH_LONG).show();
-                    request = new StringRequest(Request.Method.POST, constants.url_trip_control, new Response.Listener<String>() {
+                    request = new StringRequest(Request.Method.POST, Constants.url_trip_control, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
@@ -121,13 +119,13 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                                     // send data to MainActivity
                                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    intent.putExtra(Constants.TAG_USERID,String.valueOf(mainActivity.userLocal.getUser_id()));
-                                    intent.putExtra(Constants.TAG_USERBIRTH,mainActivity.userLocal.getUsername());
-                                    intent.putExtra(Constants.TAG_USERBIRTH,mainActivity.userLocal.getBirth());
-                                    intent.putExtra(Constants.TAG_USERPHONENUMBER,mainActivity.userLocal.getPhonenumber());
-                                    intent.putExtra(Constants.TAG_USERGENDER,mainActivity.userLocal.getGender());
-                                    intent.putExtra(Constants.TAG_USEREMAIL,mainActivity.userLocal.getEmail());
-                                    intent.putExtra(Constants.TAG_USERSTATUS,mainActivity.userLocal.getStatus());
+                                    intent.putExtra(Constants.TAG_USERID,String.valueOf(MainActivity.userLocal.getUser_id()));
+                                    intent.putExtra(Constants.TAG_USERBIRTH,MainActivity.userLocal.getUsername());
+                                    intent.putExtra(Constants.TAG_USERBIRTH,MainActivity.userLocal.getBirth());
+                                    intent.putExtra(Constants.TAG_USERPHONENUMBER,MainActivity.userLocal.getPhonenumber());
+                                    intent.putExtra(Constants.TAG_USERGENDER,MainActivity.userLocal.getGender());
+                                    intent.putExtra(Constants.TAG_USEREMAIL,MainActivity.userLocal.getEmail());
+                                    intent.putExtra(Constants.TAG_USERSTATUS,MainActivity.userLocal.getStatus());
                                     startActivityForResult(intent,100);
                                     finish();
                                 }
