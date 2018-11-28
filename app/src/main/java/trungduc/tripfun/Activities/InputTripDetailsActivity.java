@@ -73,16 +73,17 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
             case R.id.btn_Uptrip_IDe:
 
                 Log.d(TAG, "onClick: ");
+                //get data from previous activity
+                Intent intent = getIntent();
+                final String user_ori = intent.getStringExtra("ori");
+                final String user_des = intent.getStringExtra("des");
+
                 int selected_position = group_position_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_position = (RadioButton) findViewById(selected_position);
                 int selected_vehicle = group_vehicle_IDe.getCheckedRadioButtonId();
                 RadioButton radioButton_vehicle = (RadioButton) findViewById(selected_vehicle);
                 //get user id
                 final String user_id = String.valueOf(MainActivity.userLocal.getUser_id());
-                //get data from previous activity
-                Intent intent = getIntent();
-                final String user_ori = intent.getStringExtra("ori");
-                final String user_des = intent.getStringExtra("des");
                 //format date
                 String date = intent.getStringExtra("date");
                 String[] splitDate = date.split("/");
@@ -91,6 +92,8 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                 final String user_time = intent.getStringExtra("time");
                 final String user_emptyseat = edt_emptyseat.getText().toString();
                 final String user_fullseat = edt_fullseat.getText().toString();
+                final String user_gender = MainActivity.userLocal.getGender();
+                final String user_evaluation = String.valueOf(MainActivity.userLocal.getEvaluation());
 
                 String seatprice = edt_seatprice.getText().toString(); // can not input 0
                 //set seatprice  = 0+" "
@@ -117,16 +120,19 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                                     Toast.makeText(InputTripDetailsActivity.this,
                                             "Đăng chuyến thành công!\nHãy chờ người book chuyến của bạn nha", Toast.LENGTH_LONG).show();
                                     // send data to MainActivity
-                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra(Constants.TAG_USERID,String.valueOf(MainActivity.userLocal.getUser_id()));
-                                    intent.putExtra(Constants.TAG_USERBIRTH,MainActivity.userLocal.getUsername());
+                                    intent.putExtra(Constants.TAG_USERNAME,MainActivity.userLocal.getName() );
                                     intent.putExtra(Constants.TAG_USERBIRTH,MainActivity.userLocal.getBirth());
                                     intent.putExtra(Constants.TAG_USERPHONENUMBER,MainActivity.userLocal.getPhonenumber());
                                     intent.putExtra(Constants.TAG_USERGENDER,MainActivity.userLocal.getGender());
                                     intent.putExtra(Constants.TAG_USEREMAIL,MainActivity.userLocal.getEmail());
                                     intent.putExtra(Constants.TAG_USERSTATUS,MainActivity.userLocal.getStatus());
-                                    startActivityForResult(intent,100);
+                                    intent.putExtra(Constants.TAG_USEREMAIL,MainActivity.userLocal.getEmail());
+                                    intent.putExtra(Constants.TAG_USERSTATUS,MainActivity.userLocal.getStatus());
+                                    intent.putExtra(Constants.TAG_EVALUATION,String.valueOf(MainActivity.userLocal.getEvaluation()));
+                                    startActivity(intent);
                                     finish();
                                 }
                             } catch (JSONException e) {
@@ -156,6 +162,8 @@ public class InputTripDetailsActivity extends AppCompatActivity implements Adapt
                             hashMap.put("luggage",user_luggage);
                             hashMap.put("plan",user_plan);
                             hashMap.put("wgender",user_wgender);
+                            hashMap.put("userGender",user_gender);
+                            hashMap.put("userEvalua",user_evaluation);
                             hashMap.put("createUser","Yes");
                             return hashMap;
                         }

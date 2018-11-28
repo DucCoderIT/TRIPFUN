@@ -19,12 +19,13 @@ import trungduc.tripfun.Task.LoadUserByIDTask;
 
 public class ShowTripDetailsActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "ShowTripDetailsActivity";
-    private LoadFindTripTask loadFindTripTask;
     private TextView tvOri_STD,tvDes_STD,tvDate_STD,tvTime_STD,tvPosition_STD,tvVehicle_STD,tvService_STD,
                     tvSeatPrice_STD,tvEmptySeat_STD,tvFullSeat_STD,tvLuggage_STD,tvPlan_STD,tvWGender_STD; //STD = Show Trip Details
     private Button btnGo_STD;
-    private String trip_userID;
-    public static User userLocal = new User();
+    private String trip_userID,trip_id,trip_ori,trip_des,trip_date,trip_time,trip_vehicle,trip_position,
+            trip_emptyseat,trip_fullseat,trip_seatprice,trip_service,trip_luggage,trip_plan,trip_wgender;
+
+    public static User UserLocal = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,27 +33,28 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_show_trip_details);
         //init view
         handle();
-
+        UserLocal = MainActivity.userLocal;
+        Log.d(TAG, "UserLocal: "+UserLocal.getUser_id()+UserLocal.getBirth()+UserLocal.getName()+UserLocal.getGender()+UserLocal.getPhonenumber());
         //get value
         Intent intent = getIntent();
-        String trip_id = intent.getStringExtra(Constants.TAG_TRIPID);
+        trip_id = intent.getStringExtra(Constants.TAG_TRIPID);
         trip_userID = intent.getStringExtra(Constants.TAG_USERID);
-        String trip_ori = intent.getStringExtra(Constants.TAG_ORIGIN);
-        String trip_des = intent.getStringExtra(Constants.TAG_DESTINATION);
-        String trip_date = intent.getStringExtra(Constants.TAG_DATE);
-        String trip_time = intent.getStringExtra(Constants.TAG_TIME);
-        String trip_vehicle = intent.getStringExtra(Constants.TAG_TYPEVEHICLE);
-        String trip_position = intent.getStringExtra(Constants.TAG_POSITION);
-        String trip_emptyseat = intent.getStringExtra(Constants.TAG_EMPTYSEAT);
-        String trip_fullseat = intent.getStringExtra(Constants.TAG_FULLSEAT);
-        String trip_seatprice = intent.getStringExtra(Constants.TAG_SEATPRICE);
-        String trip_service = intent.getStringExtra(Constants.TAG_SERVICE);
-        String trip_luggage = intent.getStringExtra(Constants.TAG_LUGGAGE);
-        String trip_plan = intent.getStringExtra(Constants.TAG_PLAN);
-        String trip_wgender = intent.getStringExtra(Constants.TAG_WGENDER);
+        trip_ori = intent.getStringExtra(Constants.TAG_ORIGIN);
+        trip_des = intent.getStringExtra(Constants.TAG_DESTINATION);
+        trip_date = intent.getStringExtra(Constants.TAG_DATE);
+        trip_time = intent.getStringExtra(Constants.TAG_TIME);
+        trip_vehicle = intent.getStringExtra(Constants.TAG_TYPEVEHICLE);
+        trip_position = intent.getStringExtra(Constants.TAG_POSITION);
+        trip_emptyseat = intent.getStringExtra(Constants.TAG_EMPTYSEAT);
+        trip_fullseat = intent.getStringExtra(Constants.TAG_FULLSEAT);
+        trip_seatprice = intent.getStringExtra(Constants.TAG_SEATPRICE);
+        trip_service = intent.getStringExtra(Constants.TAG_SERVICE);
+        trip_luggage = intent.getStringExtra(Constants.TAG_LUGGAGE);
+        trip_plan = intent.getStringExtra(Constants.TAG_PLAN);
+        trip_wgender = intent.getStringExtra(Constants.TAG_WGENDER);
 
         Toast.makeText(this, "ID: "+trip_id, Toast.LENGTH_SHORT).show();
-        int tripID = Integer.parseInt(trip_id);
+
         //get and set value for trip
         tvOri_STD.setText(trip_ori);
         tvDes_STD.setText(trip_des);
@@ -73,6 +75,7 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
+
     }
 
     @Override
@@ -109,14 +112,45 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnGo_STD:
-                Log.d(TAG, "onClick: "+ userLocal.getUser_id());
-                LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(getApplicationContext(),trip_userID);
-                loadUserByIDTask.execute();
-                finish();
-                break;
+                int tripUserID = Integer.parseInt(trip_userID);
+                if (UserLocal.getUser_id() == tripUserID ){
+                    Toast.makeText(this, "Đây là chuyến do bạn đăng! Không thể book! Hãy tìm chuyến đi khác", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // send user info
+                    intent.putExtra(Constants.TAG_USERID,String.valueOf(UserLocal.getUser_id()));
+                    intent.putExtra(Constants.TAG_USERNAME,UserLocal.getName() );
+                    intent.putExtra(Constants.TAG_USERBIRTH,UserLocal.getBirth());
+                    intent.putExtra(Constants.TAG_USERPHONENUMBER,UserLocal.getPhonenumber());
+                    intent.putExtra(Constants.TAG_USERGENDER,UserLocal.getGender());
+                    intent.putExtra(Constants.TAG_USEREMAIL,UserLocal.getEmail());
+                    intent.putExtra(Constants.TAG_USERSTATUS,UserLocal.getStatus());
+                    intent.putExtra(Constants.TAG_USEREMAIL,UserLocal.getEmail());
+                    intent.putExtra(Constants.TAG_USERSTATUS,UserLocal.getStatus());
+                    intent.putExtra(Constants.TAG_EVALUATION,String.valueOf(UserLocal.getEvaluation()));
+                    //send trip info
+                    intent.putExtra(Constants.TAG_TRIPID,String.valueOf(trip_id));
+                    intent.putExtra(Constants.TAG_TRIPUSERID,String.valueOf(trip_userID));
+                    intent.putExtra(Constants.TAG_ORIGIN, trip_ori);
+                    intent.putExtra(Constants.TAG_DESTINATION, trip_des);
+                    intent.putExtra(Constants.TAG_DATE, trip_date);
+                    intent.putExtra(Constants.TAG_TIME, trip_time);
+                    intent.putExtra(Constants.TAG_TYPEVEHICLE, trip_vehicle);
+                    intent.putExtra(Constants.TAG_POSITION, trip_position);
+                    intent.putExtra(Constants.TAG_EMPTYSEAT, trip_emptyseat);
+                    intent.putExtra(Constants.TAG_FULLSEAT, trip_fullseat);
+                    intent.putExtra(Constants.TAG_SEATPRICE, trip_seatprice);
+                    intent.putExtra(Constants.TAG_SERVICE, trip_service);
+                    intent.putExtra(Constants.TAG_LUGGAGE, trip_luggage);
+                    intent.putExtra(Constants.TAG_PLAN, trip_plan);
+                    intent.putExtra(Constants.TAG_WGENDER, trip_wgender);
+                    startActivity(intent);
+                    finish();
+                    break;
+                }
         }
     }
-
     // initialize for view
     private void handle(){
         tvOri_STD = (TextView) findViewById(R.id.tvOri_STD);

@@ -72,8 +72,9 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
                     String user_gender = jsonObjectGet.getString(Constants.TAG_USERGENDER);
                     String user_email = jsonObjectGet.getString(Constants.TAG_USEREMAIL);
                     String user_status = jsonObjectGet.getString(Constants.TAG_USERSTATUS);
+                    String user_evaluation = jsonObjectGet.getString(Constants.TAG_EVALUATION);
 
-                    Log.d("LOG ORI DES: ", "doInBackground: "+user_id+" "+user_name+user_birth+user_phonenumber+user_gender+user_email+user_status);
+                    Log.d("LOG ORI DES: ", "doInBackground: "+user_id+" "+user_name+user_birth+user_phonenumber+user_gender+user_email+user_status+user_evaluation);
 
                     User userdetail = new User();
 
@@ -84,6 +85,7 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
                     userdetail.setGender(user_gender);
                     userdetail.setEmail(user_email);
                     userdetail.setStatus(user_status);
+                    userdetail.setEvaluation(Integer.parseInt(user_evaluation));
 
                     listUserDetails.add(userdetail);
                 }
@@ -108,12 +110,13 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
             Intent intent = new Intent(context,MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra(Constants.TAG_USERID,String.valueOf(listUserDetails.get(0).getUser_id()));
-            intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getUsername());
+            intent.putExtra(Constants.TAG_USERNAME,listUserDetails.get(0).getName());
             intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getBirth());
             intent.putExtra(Constants.TAG_USERPHONENUMBER,listUserDetails.get(0).getPhonenumber());
             intent.putExtra(Constants.TAG_USERGENDER,listUserDetails.get(0).getGender());
             intent.putExtra(Constants.TAG_USEREMAIL,listUserDetails.get(0).getEmail());
             intent.putExtra(Constants.TAG_USERSTATUS,listUserDetails.get(0).getStatus());
+            intent.putExtra(Constants.TAG_EVALUATION,String.valueOf(listUserDetails.get(0).getEvaluation()));
 
             ((Activity) context).startActivityForResult(intent, 100);
             ((Activity) context).finish();

@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String user_gender = intent.getStringExtra(Constants.TAG_USERGENDER);
         String user_email = intent.getStringExtra(Constants.TAG_USEREMAIL);
         String user_status = intent.getStringExtra(Constants.TAG_USERSTATUS);
-        Log.d(TAG, "onActivityResult: "+ user_id +user_name+ user_birth+user_phonenumber+user_gender+user_email+user_status);
+        String user_evaluation = intent.getStringExtra(Constants.TAG_EVALUATION);
+
+        Log.d(TAG, "onActivityResult: "+ user_id +user_name+ user_birth+user_phonenumber+user_gender+user_email+user_status+user_evaluation);
 
 
         userLocal.setUser_id(Integer.parseInt(user_id));
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userLocal.setGender(user_gender);
         userLocal.setEmail(user_email);
         userLocal.setStatus(user_status);
+        userLocal.setEvaluation(Integer.parseInt(user_evaluation));
         Log.d(TAG, "onActivityResult: "+ userLocal.getUser_id() );
     }
 

@@ -28,6 +28,7 @@ import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
 import trungduc.tripfun.Models.Tripdetails;
+import trungduc.tripfun.Models.User;
 
 
 public class LoadFindTripTask extends AsyncTask<String, String, String> {
@@ -40,8 +41,8 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
     TripdetailsAdapter tripdetailsAdapter;
     String origin_find, destination_find;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
     SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+    User userTrip = new User();
 
 
 
@@ -99,7 +100,9 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                     String luggage = jsonObjectGet.getString(Constants.TAG_LUGGAGE);
                     String plan = jsonObjectGet.getString(Constants.TAG_PLAN);
                     String wgender = jsonObjectGet.getString(Constants.TAG_WGENDER);
-                    Log.d("LOG ORI DES: ", "doInBackground: "+origin+" "+destination);
+                    String userGender = jsonObjectGet.getString(Constants.TAG_TRIP_USERGENDER);
+                    String userEvalua = jsonObjectGet.getString(Constants.TAG_USER_EVALUATION);
+
                         // creating new tripdetail
                         String[] separated = date.split("-");
                         String myDate= separated[2] +"/" +separated[1]+"/" +separated[0];
@@ -122,6 +125,11 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                         tripdetail.setLuggage(luggage);
                         tripdetail.setPlan(plan);
                         tripdetail.setWgender(wgender);
+                        tripdetail.setGender(userGender);
+                        tripdetail.setEvaluation(userEvalua);
+
+                    Log.d("LOG", "doInBackground: "+userGender+userEvalua);
+
                         listTripdetails.add(tripdetail);
                 }
             } if (listTripdetails.size() == 0){

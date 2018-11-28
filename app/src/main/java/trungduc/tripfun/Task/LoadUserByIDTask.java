@@ -28,10 +28,12 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
     public ArrayList<User> listUserDetails;
     JSONArray userdetails = null;
     String userID ;
+    User user;
 
 
 
-    public LoadUserByIDTask(Context context,String userID) {
+    public LoadUserByIDTask(Context context,String userID,User user) {
+        this.user = user;
         this.context = context;
         this.userID = userID;
         jParser = new JSONParser();
@@ -72,7 +74,7 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
                     String user_email = jsonObjectGet.getString(Constants.TAG_USEREMAIL);
                     String user_status = jsonObjectGet.getString(Constants.TAG_USERSTATUS);
 
-                    Log.d("LOG ORI DES: ", "doInBackground: "+user_id+" "+user_name+user_birth+user_phonenumber+user_gender+user_email+user_status);
+                    Log.d("userS: ", "doInBackground: "+user_id+" "+user_name+user_birth+user_phonenumber+user_gender+user_email+user_status);
 
                     User userdetail = new User();
 
@@ -104,15 +106,12 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
 //        if (pDialog.isShowing()) {
 //            pDialog.dismiss();
 //        }
-        Intent intent = new Intent(context,HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constants.TAG_USERID,String.valueOf(listUserDetails.get(0).getUser_id()));
-        intent.putExtra(Constants.TAG_USERNAME,listUserDetails.get(0).getUsername());
-        intent.putExtra(Constants.TAG_USERBIRTH,listUserDetails.get(0).getBirth());
-        intent.putExtra(Constants.TAG_USERPHONENUMBER,listUserDetails.get(0).getPhonenumber());
-        intent.putExtra(Constants.TAG_USERGENDER,listUserDetails.get(0).getGender());
-        intent.putExtra(Constants.TAG_USEREMAIL,listUserDetails.get(0).getEmail());
-        intent.putExtra(Constants.TAG_USERSTATUS,listUserDetails.get(0).getStatus());
-        context.startActivity(intent);
+        user.setUser_id(listUserDetails.get(0).getUser_id());
+        user.setName(listUserDetails.get(0).getName());
+        user.setPhonenumber(listUserDetails.get(0).getPhonenumber());
+        user.setGender(listUserDetails.get(0).getGender());
+        user.setEmail(listUserDetails.get(0).getEmail());
+        user.setBirth(listUserDetails.get(0).getBirth());
+        user.setStatus(listUserDetails.get(0).getStatus());
     }
 }

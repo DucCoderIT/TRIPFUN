@@ -20,13 +20,15 @@ public class Tripdetails {
     public String suggest;
     public String plan;
     public String wgender;
+    public String gender;
+    public String evaluation;
 
 
 
     public Tripdetails() {
     }
 
-    public Tripdetails(int tripID, int userID, String origin, String destination, Date date, Time time, String typevehicle, String position, int emptyseat, int fullseat, int seatprice, String service, String luggage, String suggest, String plan, String wgender) {
+    public Tripdetails(int tripID, int userID, String origin, String destination, Date date, Time time, String typevehicle, String position, int emptyseat, int fullseat, int seatprice, String service, String luggage, String suggest, String plan, String wgender,String gender,String evaluation) {
         this.tripID = tripID;
         this.userID = userID;
         this.origin = origin;
@@ -43,6 +45,8 @@ public class Tripdetails {
         this.suggest = suggest;
         this.plan = plan;
         this.wgender = wgender;
+        this.gender = gender;
+        this.evaluation = evaluation;
     }
 
     public int getTripID() {
@@ -173,22 +177,24 @@ public class Tripdetails {
         this.wgender = wgender;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(String evaluation) {
+        this.evaluation = evaluation;
+    }
+
     @Override
     public String toString() {
-        return tripID +
-                ";\n" + origin +
-                ";\n" + destination +
-                ";\n" + date +
-                ";\n" + time +
-                ";\n" + typevehicle +
-                ";\n" + position +
-                ";\n" + emptyseat +
-                ";\n" + fullseat +
-                ";\n" + seatprice +
-                ";\n" + service +
-                ";\n" + luggage +
-                ";\n" + suggest +
-                ";\n" + plan +
-                ";\n" + wgender;
+        return tripID+";";
     }
 }

@@ -8,12 +8,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:logo="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Activities.HelloActivity">
+        <activity android:name=".Activities.HelloActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -21,23 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.FindTripActivity" />
-        <activity android:name=".Activities.UpTripActivity" />
-        <activity android:name=".Activities.InputTripDetailsActivity" />
-        <activity android:name=".Activities.ShowTripDetailsActivity" />
-
-        <!--  -->
-        <!--  -->
-
-
+        <activity android:name=".Activities.LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.SignUpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.MainActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.FindTripActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.AllTripFoundActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.UpTripActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.InputTripDetailsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.ShowTripDetailsActivity" android:screenOrientation="portrait" />
         <!-- fragment -->
         <activity
             android:name=".Activities.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.AllTripFoundActivity" />
+            android:theme="@style/AppTheme.NoActionBar"  android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -46,9 +41,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
-        <activity android:name=".Activities.UserActivity">
-        </activity>
     </application>
 
 </manifest>

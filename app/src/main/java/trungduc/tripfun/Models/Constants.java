@@ -2,11 +2,11 @@ package trungduc.tripfun.Models;
 
 
 public class Constants {
-    public static String url_all_tripdetails = "http://192.168.1.126:80/source/TRIFUNDB/get_all_tripdetails.php";
-    public static String url_user_control = "http://192.168.1.126:80/source/TRIFUNDB/user_control.php";
-    public static String url_trip_control = "http://192.168.1.126:80/source/TRIFUNDB/trip_control.php";
-    public static String url_get_user = "http://192.168.1.126:80/source/TRIFUNDB/get_userdetails.php";
-
+    public static String ipconfig ="http://192.168.1.126:80";
+    public static String url_all_tripdetails = ipconfig + "/source/TRIFUNDB/get_all_tripdetails.php";
+    public static String url_user_control = ipconfig + "/source/TRIFUNDB/user_control.php";
+    public static String url_trip_control = ipconfig +"/source/TRIFUNDB/trip_control.php";
+    public static String url_get_user = ipconfig + "/source/TRIFUNDB/get_userdetails.php";
 
     // JSON Node names
     public static final String TAG_SUCCESS = "success";
@@ -14,6 +14,7 @@ public class Constants {
     public static final String TAG_TRIPDETAILS = "tripdetails";
     public static final String TAG_TRIPDETAIL = "tripdetail";
     public static final String TAG_TRIPID = "tripID";
+    public static final String TAG_TRIPUSERID = "TripUserID";
     public static final String TAG_ORIGIN = "origin";
     public static final String TAG_DESTINATION = "destination";
     public static final String TAG_DATE = "date";
@@ -28,6 +29,8 @@ public class Constants {
     public static final String TAG_SUGGEST = "suggest";
     public static final String TAG_PLAN = "plan";
     public static final String TAG_WGENDER = "wgender";
+    public static final String TAG_TRIP_USERGENDER = "userGender";
+    public static final String TAG_USER_EVALUATION = "userEvalua";
     //============================================
     public static final String TAG_USERDETAILS = "userdetails";
     public static final String TAG_USERID = "userID";
@@ -39,6 +42,9 @@ public class Constants {
     public static final String TAG_USER_PASSWORD = "password";
     public static final String TAG_USEREMAIL = "email";
     public static final String TAG_USERSTATUS = "status";
+    public static final String TAG_EVALUATION = "evaluation";
+
+
 
     public static final String TAG_DESCRIPTION = "description";
 }

@@ -10,11 +10,12 @@ public class User {
     private String password;
     private String email;
     private String status;
+    private int evaluation;
 
     public User() {
     }
 
-    public User(int user_id, String name, String birth, String phonenumber, String gender, String username, String password, String email, String status) {
+    public User(int user_id, String name, String birth, String phonenumber, String gender, String username, String password, String email, String status,int evaluation) {
         this.user_id = user_id;
         this.name = name;
         this.birth = birth;
@@ -24,6 +25,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.status = status;
+        this.evaluation = evaluation;
     }
 
     public int getUser_id() {
@@ -98,18 +100,16 @@ public class User {
         this.status = status;
     }
 
+    public int getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(int evaluation) {
+        this.evaluation = evaluation;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", name='" + name + '\'' +
-                ", birth='" + birth + '\'' +
-                ", phonenumber='" + phonenumber + '\'' +
-                ", gender='" + gender + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+        return "user_id=" + user_id ;
     }
 }

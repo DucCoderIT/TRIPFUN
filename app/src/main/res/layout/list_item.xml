@@ -108,7 +108,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/white"/>
                 <TextView
-                    android:id="@+id/tvdrivesex"
+                    android:id="@+id/tvDriveGender"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4.5"

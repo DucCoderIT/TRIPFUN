@@ -25,11 +25,11 @@
     <item android:title="Chức năng">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_findtrip"
                 android:icon="@drawable/places_ic_search"
                 android:title="Tìm chuyến" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_uptrip"
                 android:icon="@drawable/ic_car_black_24dp"
                 android:title="Đăng chuyến" />
             <item

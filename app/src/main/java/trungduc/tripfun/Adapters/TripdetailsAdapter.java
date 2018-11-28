@@ -39,7 +39,7 @@ public class TripdetailsAdapter extends BaseAdapter {
     }
     public static class ViewHolder {
         //CHANGE--------------------
-        TextView tvTripID,tvOri,tvDes,tvVehicle,tvSeatPrice;
+        TextView tvTripID,tvOri,tvDes,tvVehicle,tvSeatPrice,tvDriveGender,tvEvalua;
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -55,6 +55,8 @@ public class TripdetailsAdapter extends BaseAdapter {
             viewHolder.tvDes = (TextView) view.findViewById(R.id.tvDes);
             viewHolder.tvVehicle = (TextView) view.findViewById(R.id.tvVehicle);
             viewHolder.tvSeatPrice = (TextView) view.findViewById(R.id.tvSeatPrice);
+            viewHolder.tvDriveGender = (TextView) view.findViewById(R.id.tvDriveGender);
+            viewHolder.tvEvalua = (TextView) view.findViewById(R.id.tvEvalua);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder)view.getTag();
@@ -66,6 +68,8 @@ public class TripdetailsAdapter extends BaseAdapter {
         viewHolder.tvDes.setText(tripdetails.getDestination());
         viewHolder.tvVehicle.setText(tripdetails.getTypevehicle());
         viewHolder.tvSeatPrice.setText(tripdetails.getSeatprice()+"");
+        viewHolder.tvDriveGender.setText(tripdetails.getGender());
+        viewHolder.tvEvalua.setText(tripdetails.getEvaluation());
         return view;
     }
 }
