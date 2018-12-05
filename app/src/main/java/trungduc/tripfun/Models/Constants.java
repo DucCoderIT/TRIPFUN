@@ -7,14 +7,16 @@ public class Constants {
     public static String url_user_control = ipconfig + "/source/TRIFUNDB/user_control.php";
     public static String url_trip_control = ipconfig +"/source/TRIFUNDB/trip_control.php";
     public static String url_get_user = ipconfig + "/source/TRIFUNDB/get_userdetails.php";
+    public static String url_join_trip = ipconfig + "/source/TRIFUNDB/join_trip.php";
 
     // JSON Node names
     public static final String TAG_SUCCESS = "success";
+    public static final String TAG_ERROR = "error";
     //SET TAG FOR TRIP +++=============================
     public static final String TAG_TRIPDETAILS = "tripdetails";
     public static final String TAG_TRIPDETAIL = "tripdetail";
     public static final String TAG_TRIPID = "tripID";
-    public static final String TAG_TRIPUSERID = "TripUserID";
+    public static final String TAG_TRIPUSERID = "ownerID";
     public static final String TAG_ORIGIN = "origin";
     public static final String TAG_DESTINATION = "destination";
     public static final String TAG_DATE = "date";

@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import trungduc.tripfun.Models.Constants;
@@ -35,7 +34,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         edtPassword_SUp,edtBrith_SUp,edtGender_SUp; // SUp = 'Sign Up';
     private RequestQueue requestQueue;
     private StringRequest request;
-    private Constants constants;
 
 
     @Override
@@ -104,14 +102,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 final String email = edtEmail_SUp.getText().toString();
                 if (!(name.equals("") && email.equals("")&& username.equals("") && password.equals("") && phonenumber.equals("")
                         && birth.equals("") && gender.equals(""))){
-                    request = new StringRequest(Request.Method.POST, constants.url_user_control, new Response.Listener<String>() {
+                    request = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                if (jsonObject.names().get(0).equals("success")){
-                                    Toast.makeText(SignUpActivity.this, "CREATE ACCOUNT COMPLETED!", Toast.LENGTH_SHORT).show();
+                                if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){
+                                    Toast.makeText(SignUpActivity.this, jsonObject.getString(Constants.TAG_SUCCESS), Toast.LENGTH_SHORT).show();
                                     goBackSignIn(username,password);
+                                }else{
+                                    Toast.makeText(SignUpActivity.this, jsonObject.getString(Constants.TAG_ERROR), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

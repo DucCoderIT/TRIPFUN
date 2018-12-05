@@ -28,7 +28,6 @@ import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
 import trungduc.tripfun.Models.Tripdetails;
-import trungduc.tripfun.Models.User;
 
 
 public class LoadFindTripTask extends AsyncTask<String, String, String> {
@@ -42,9 +41,6 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
     String origin_find, destination_find;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
-    User userTrip = new User();
-
-
 
     public LoadFindTripTask(Context context, ListView lvTripdetails,String origin_find,String destination_find) {
         this.origin_find = origin_find;
@@ -65,7 +61,6 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         // Building Parameters
-
         List<HashMap<String, String>> params = new ArrayList<>();
         HashMap<String,String> hashMap = new HashMap<String,String>();
         hashMap.put("origin",origin_find);
@@ -73,7 +68,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
         hashMap2.put("destiantion",destination_find);
         params.add(hashMap);
         params.add(hashMap2);
-
+        //new Jsonobject
         JSONObject jsonObject =
                 jParser.makeHttpRequest(Constants.url_all_tripdetails, "POST", params);
         try {

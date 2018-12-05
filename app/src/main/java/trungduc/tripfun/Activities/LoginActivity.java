@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 loadUserTask.execute();
                             }else{
                                 Toast.makeText(getApplicationContext(), "Error"+
-                                        jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        jsonObject.getString(Constants.TAG_ERROR), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
