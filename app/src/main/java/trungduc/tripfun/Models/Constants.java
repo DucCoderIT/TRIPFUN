@@ -3,11 +3,13 @@ package trungduc.tripfun.Models;
 
 public class Constants {
     public static String ipconfig ="http://192.168.1.126:80";
-    public static String url_all_tripdetails = ipconfig + "/source/TRIFUNDB/get_all_tripdetails.php";
+    public static String url_all_tripdetails_by_ori_des = ipconfig + "/source/TRIFUNDB/get_all_tripdetails_by_orides.php";
+    public static String url_all_tripdetails_by_userid = ipconfig + "/source/TRIFUNDB/get_all_tripdetails_by_userid.php";
     public static String url_user_control = ipconfig + "/source/TRIFUNDB/user_control.php";
     public static String url_trip_control = ipconfig +"/source/TRIFUNDB/trip_control.php";
     public static String url_get_user = ipconfig + "/source/TRIFUNDB/get_userdetails.php";
     public static String url_join_trip = ipconfig + "/source/TRIFUNDB/join_trip.php";
+    public static String url_check_join_trip = ipconfig + "/source/TRIFUNDB/check_join_trip.php";
 
     // JSON Node names
     public static final String TAG_SUCCESS = "success";

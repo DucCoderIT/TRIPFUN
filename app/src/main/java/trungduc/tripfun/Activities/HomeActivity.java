@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import trungduc.tripfun.Fragments.AppInfoFragment;
 import trungduc.tripfun.Fragments.UserInfoFragment;
 import trungduc.tripfun.Fragments.ManagerTripFragment;
@@ -22,15 +24,19 @@ import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.Tripdetails;
 import trungduc.tripfun.Models.User;
 import trungduc.tripfun.R;
+import trungduc.tripfun.Task.LoadAllTripByUserIDTask;
 import trungduc.tripfun.Task.LoadUserByIDTask;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private String TAG = "HomeActivity";
     private DrawerLayout drawer;
+    public LoadAllTripByUserIDTask loadAllTripByUserIDTask;
     public String trip_date,trip_time;
+    public static ArrayList<Tripdetails> listTripdetails = new ArrayList<>();
     public static User userLocal = new User();
     public static User TripUser = new User();
     public static Tripdetails tripdetail = new Tripdetails();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +138,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     new UserInfoFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_user_profile);
         }
+        //load all trip of user
+
+        loadAllTripByUserIDTask = new LoadAllTripByUserIDTask(HomeActivity.this,user_id,listTripdetails);
+        loadAllTripByUserIDTask.execute();
     }
 
     @Override

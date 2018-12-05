@@ -11,11 +11,14 @@ import android.widget.Toast;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.User;
 import trungduc.tripfun.R;
+import trungduc.tripfun.Task.CheckJoinTripTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "MainActivity";
     private Button btnUpTrip_H,btnFindTrip_H; // _H = _Home
     private int countPressBack = 0;
+    private CheckJoinTripTask checkJoinTripTask;
+
     public static User userLocal = new User();
 
 
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
+        checkJoinTripTask = new CheckJoinTripTask(MainActivity.this);
+        checkJoinTripTask.execute();
     }
 
     @Override
