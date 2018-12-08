@@ -34,7 +34,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public String trip_date, trip_time;
     public static ArrayList<Tripdetails> listTripdetails = new ArrayList<>();
     public static User userLocal = new User();
-    public static ArrayList<User> customer = new ArrayList<>();
     public static User TripUser = new User();
     public static User Customer1 = new User();public static User Customer2 = new User();public static User Customer3 = new User();
     public static User Customer4 = new User();public static User Customer5 = new User();public static User Customer6 = new User();
@@ -66,7 +65,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //if data trip detail exits-----------
         if (trip_id != null) {
-            String trip_userID = intent.getStringExtra(Constants.TAG_USERID);
+            String trip_userID = intent.getStringExtra(Constants.TAG_TRIPUSERID);
             String trip_ori = intent.getStringExtra(Constants.TAG_ORIGIN);
             String trip_des = intent.getStringExtra(Constants.TAG_DESTINATION);
             trip_date = intent.getStringExtra(Constants.TAG_DATE);
@@ -95,6 +94,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             tripdetail.setLuggage(trip_luggage);
             tripdetail.setPlan(trip_plan);
             tripdetail.setWgender(trip_wgender);
+
             if (trip_userID.equals(user_id)){
                 String userID1 = intent.getStringExtra("userID1");
                 if (userID1!=null){
@@ -141,6 +141,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID9,Customer9);
                     loadUserByIDTask.execute();
                 }
+                LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,trip_userID,TripUser);
+                loadUserByIDTask.execute();
             }else{
                 LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,trip_userID,TripUser);
                 loadUserByIDTask.execute();
@@ -178,15 +180,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         // set default fragment-----
-        if (tripdetail.getOrigin() != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ManagerTripFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_manager_trip);
-        } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new UserInfoFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_user_profile);
-        }
+        navigationView.setCheckedItem(R.id.nav_manager_trip);
         //load all trip of user
         loadAllTripByUserIDTask = new LoadAllTripByUserIDTask(HomeActivity.this, user_id, listTripdetails);
         loadAllTripByUserIDTask.execute();

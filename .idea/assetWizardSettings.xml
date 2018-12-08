@@ -35,8 +35,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="101" />
-                                                <entry key="trimmed" value="true" />
+                                                <entry key="scalingPercent" value="67" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -48,7 +47,7 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="foregroundImage" value="E:\ic_launcher.png" />
+                                      <entry key="foregroundImage" value="F:\SUBJECT\TRIPFUN\app\src\main\res\drawable\ic_launcher.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="previewDensity" value="MEDIUM" />
                                       <entry key="webIconShape" value="CIRCLE" />

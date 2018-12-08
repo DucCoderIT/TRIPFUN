@@ -37,6 +37,7 @@ public class TripdetailsAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
+
     public static class ViewHolder {
         //CHANGE--------------------
         TextView tvTripID,tvOri,tvDes,tvVehicle,tvSeatPrice,tvDriveGender,tvEvalua;

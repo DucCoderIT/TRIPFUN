@@ -2,7 +2,8 @@ package trungduc.tripfun.Models;
 
 
 public class Constants {
-    public static String ipconfig ="http://tripfun.000webhostapp.com/";
+//    public static String ipconfig ="http://tripfun.000webhostapp.com/";
+    public static String ipconfig ="http://192.168.1.6:80/source/TRIFUNDB/";
     public static String url_all_tripdetails_by_ori_des = ipconfig + "get_all_tripdetails_by_orides.php";
     public static String url_all_tripdetails_by_userid = ipconfig + "get_all_tripdetails_by_userid.php";
     public static String url_user_control = ipconfig + "user_control.php";

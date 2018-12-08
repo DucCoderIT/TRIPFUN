@@ -32,7 +32,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
 
     private Context context;
     private ProgressDialog progressDialog;
-    private Dialog dialog;
+    private Dialog dialogHaveMessage;
     private StringRequest request;
     private RequestQueue requestQueue;
 
@@ -61,31 +61,25 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                         Log.d("SUCCESS", "onResponse: "+jsonObject.getString(Constants.TAG_SUCCESS));
                         final String trip_ID = jsonObject.getString(Constants.TAG_TRIPID); //set tripID
                         final String userID1 = jsonObject.getString("userID1");
-                        String userID2 = jsonObject.getString("userID2");
-                        String userID3 = jsonObject.getString("userID3");
-                        String userID4 = jsonObject.getString("userID4");
-                        String userID5 = jsonObject.getString("userID5");
-                        String userID6 = jsonObject.getString("userID6");
-                        String userID7 = jsonObject.getString("userID7");
-                        String userID8 = jsonObject.getString("userID8");
-                        String userID9 = jsonObject.getString("userID9");
-                        String message = "You have a message";//set message for dialog
-                        //show dialog
-                        dialog = new Dialog(context);
-                        dialog.setContentView(R.layout.dialog);
-                        TextView tvMsg = dialog.findViewById(R.id.tvMessage);
-                        Button btnJoinTrip = dialog.findViewById(R.id.btnJoinTrip);
-                        Button btnCancleJoinTrip = dialog.findViewById(R.id.btnCancleJoinTrip);
+                        String message = "Bạn có chuyến đi đang trong hàng chờ!";//set message for dialogHaveMessage
+                        //show dialogHaveMessage
+                        dialogHaveMessage = new Dialog(context);
+                        dialogHaveMessage.setContentView(R.layout.have_message_dialog);
+                        TextView tvMsg = dialogHaveMessage.findViewById(R.id.tvMessage);
+                        Button btnJoinTrip = dialogHaveMessage.findViewById(R.id.btnJoinTrip);
+                        Button btnCancleJoinTrip = dialogHaveMessage.findViewById(R.id.btnCancleJoinTrip);
+                        //click go to home=========
                         btnJoinTrip.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dialog.cancel();
-                                //get tripdetails
+                                dialogHaveMessage.cancel();
+                                //get trip details
                                 request = new StringRequest(Request.Method.POST, Constants.url_check_join_trip, new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         try {
                                             JSONObject jsonObjectAnother = new JSONObject(response);
+
                                             String user_id = jsonObjectAnother.getString(Constants.TAG_USERID);
                                             String origin = jsonObjectAnother.getString(Constants.TAG_ORIGIN);
                                             String destination = jsonObjectAnother.getString(Constants.TAG_DESTINATION);
@@ -103,7 +97,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                                             String userGender = jsonObjectAnother.getString(Constants.TAG_TRIP_USERGENDER);
                                             String userEvalua = jsonObjectAnother.getString(Constants.TAG_USER_EVALUATION);
 
-                                            Log.d("GETTRIP", "onResponse: "+user_id + origin+destination+date
+                                            Log.d("GET TRIP", "onResponse: "+user_id + origin+destination+date
                                             +time+typevehicle+position+seatprice+emptyseat+fullseat+service+luggage
                                             +plan+wgender+userGender+userEvalua);
 
@@ -136,10 +130,9 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                                             intent.putExtra(Constants.TAG_WGENDER, wgender);
                                             //send user id in trip active
                                             intent.putExtra("userID1",userID1);
-                                            for (int i = 2;i<10;i++){
-                                                String customer = jsonObject.getString("userID"+i);
-                                                if (customer!=null){
-                                                    intent.putExtra("userID"+i,customer);
+                                            for (int i = 2; i<10; i++){
+                                                if (!jsonObject.getString("userID"+i).equals("null")){
+                                                    intent.putExtra("userID"+i,jsonObject.getString("userID"+i));
                                                 }
                                             }
                                             context.startActivity(intent);
@@ -168,13 +161,13 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                         btnCancleJoinTrip.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                dialogHaveMessage.cancel();
                             }
                         });
                         tvMsg.setText(message);
-                        dialog.setCancelable(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
+                        dialogHaveMessage.setCancelable(false);
+                        dialogHaveMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialogHaveMessage.show();
                     }else{
                         Log.d("ERROR", "onResponse: "+jsonObject.getString(Constants.TAG_ERROR));
                         String message = "You don't have a message";

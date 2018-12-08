@@ -16,7 +16,7 @@ import trungduc.tripfun.Task.LoadUserByIDTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "MainActivity";
-    private Button btnUpTrip_H,btnFindTrip_H; // _H = _Home
+    private Button btnUpTrip_H,btnFindTrip_H,btnHomeinMain; // _H = _Home
     private int countPressBack = 0;
     private CheckJoinTripTask checkJoinTripTask;
     public static User userLocal = new User();
@@ -119,11 +119,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnFindTrip_H:
                 startActivity(new Intent(getApplicationContext(),FindTripActivity.class));
                 break;
+            case R.id.btnHOMEinMain:
+                Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Constants.TAG_USERID,String.valueOf(MainActivity.userLocal.getUser_id()));
+                intent.putExtra(Constants.TAG_USERNAME,MainActivity.userLocal.getName());
+                intent.putExtra(Constants.TAG_USERBIRTH,MainActivity.userLocal.getBirth());
+                intent.putExtra(Constants.TAG_USERPHONENUMBER,MainActivity.userLocal.getPhonenumber());
+                intent.putExtra(Constants.TAG_USERGENDER,MainActivity.userLocal.getGender());
+                intent.putExtra(Constants.TAG_USEREMAIL,MainActivity.userLocal.getEmail());
+                intent.putExtra(Constants.TAG_USERSTATUS,MainActivity.userLocal.getStatus());
+                intent.putExtra(Constants.TAG_EVALUATION,String.valueOf(MainActivity.userLocal.getEvaluation()));
+                startActivity(intent);
+                finish();
+                break;
         }
     }
     private void handle(){
         btnUpTrip_H = (Button) findViewById(R.id.btnUpTrip_H);
         btnFindTrip_H = (Button) findViewById(R.id.btnFindTrip_H);
+        btnHomeinMain = (Button) findViewById(R.id.btnHOMEinMain);
+        btnHomeinMain.setOnClickListener(this);
         btnUpTrip_H.setOnClickListener(this);
         btnFindTrip_H.setOnClickListener(this);
     }
