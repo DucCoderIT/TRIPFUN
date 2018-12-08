@@ -1,5 +1,5 @@
 package trungduc.tripfun.Activities;
-
+;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -31,21 +31,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private String TAG = "HomeActivity";
     private DrawerLayout drawer;
     public LoadAllTripByUserIDTask loadAllTripByUserIDTask;
-    public String trip_date,trip_time;
+    public String trip_date, trip_time;
     public static ArrayList<Tripdetails> listTripdetails = new ArrayList<>();
     public static User userLocal = new User();
+    public static ArrayList<User> customer = new ArrayList<>();
     public static User TripUser = new User();
+    public static User Customer1 = new User();public static User Customer2 = new User();public static User Customer3 = new User();
+    public static User Customer4 = new User();public static User Customer5 = new User();public static User Customer6 = new User();
+    public static User Customer7 = new User();public static User Customer8 = new User();public static User Customer9 = new User();
     public static Tripdetails tripdetail = new Tripdetails();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         Log.d(TAG, "onCreate: ");
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-
 
         drawer = findViewById(R.id.drawer_layout);
 
@@ -62,7 +65,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String trip_id = intent.getStringExtra(Constants.TAG_TRIPID);
 
         //if data trip detail exits-----------
-        if (trip_id != null){
+        if (trip_id != null) {
             String trip_userID = intent.getStringExtra(Constants.TAG_USERID);
             String trip_ori = intent.getStringExtra(Constants.TAG_ORIGIN);
             String trip_des = intent.getStringExtra(Constants.TAG_DESTINATION);
@@ -92,15 +95,61 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             tripdetail.setLuggage(trip_luggage);
             tripdetail.setPlan(trip_plan);
             tripdetail.setWgender(trip_wgender);
-
-            LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this, trip_userID,TripUser);
-            loadUserByIDTask.execute();
-
-        }else{
-            Log.d(TAG, "onCreate: USER ID RONG");
+            if (trip_userID.equals(user_id)){
+                String userID1 = intent.getStringExtra("userID1");
+                if (userID1!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID1,Customer1);
+                    loadUserByIDTask.execute();
+                }
+                String userID2 = intent.getStringExtra("userID2");
+                if (userID2!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID2,Customer2);
+                    loadUserByIDTask.execute();
+                }
+                String userID3 = intent.getStringExtra("userID3");
+                if (userID3!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID3,Customer3);
+                    loadUserByIDTask.execute();
+                }
+                String userID4 = intent.getStringExtra("userID4");
+                if (userID4!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID4,Customer4);
+                    loadUserByIDTask.execute();
+                }
+                String userID5 = intent.getStringExtra("userID5");
+                if (userID5!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID5,Customer5);
+                    loadUserByIDTask.execute();
+                }
+                String userID6 = intent.getStringExtra("userID6");
+                if (userID6!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID6,Customer6);
+                    loadUserByIDTask.execute();
+                }
+                String userID7 = intent.getStringExtra("userID7");
+                if (userID7!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID7,Customer7);
+                    loadUserByIDTask.execute();
+                }
+                String userID8 = intent.getStringExtra("userID8");
+                if (userID8!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID8,Customer8);
+                    loadUserByIDTask.execute();
+                }
+                String userID9 = intent.getStringExtra("userID9");
+                if (userID9!=null){
+                    LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,userID9,Customer9);
+                    loadUserByIDTask.execute();
+                }
+            }else{
+                LoadUserByIDTask loadUserByIDTask = new LoadUserByIDTask(HomeActivity.this,trip_userID,TripUser);
+                loadUserByIDTask.execute();
+            }
+        } else {
+            Log.d(TAG, "onCreate: TRIP ID RONG");
         }
 
-        Log.d(TAG, "onActivityResult: "+ user_id +user_name+ user_birth+user_phonenumber+user_gender+user_email+user_status);
+        Log.d(TAG, "onActivityResult: " + user_id + user_name + user_birth + user_phonenumber + user_gender + user_email + user_status);
         userLocal.setUser_id(Integer.parseInt(user_id));
         userLocal.setName(user_name);
         userLocal.setBirth(user_birth);
@@ -133,14 +182,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ManagerTripFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_manager_trip);
-        }else{
+        } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new UserInfoFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_user_profile);
         }
         //load all trip of user
-
-        loadAllTripByUserIDTask = new LoadAllTripByUserIDTask(HomeActivity.this,user_id,listTripdetails);
+        loadAllTripByUserIDTask = new LoadAllTripByUserIDTask(HomeActivity.this, user_id, listTripdetails);
         loadAllTripByUserIDTask.execute();
     }
 
@@ -202,19 +250,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         new AppInfoFragment()).commit();
                 break;
             case R.id.nav_findtrip:
-                Intent intentToFindTrip = new Intent(HomeActivity.this,FindTripActivity.class);
-                intentToFindTrip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Intent intentToFindTrip = new Intent(HomeActivity.this, FindTripActivity.class);
+                //intentToFindTrip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentToFindTrip);
                 break;
             case R.id.nav_uptrip:
-                Intent intentToUpTrip = new Intent(HomeActivity.this,UpTripActivity.class);
-                intentToUpTrip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Intent intentToUpTrip = new Intent(HomeActivity.this, UpTripActivity.class);
+                //intentToUpTrip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentToUpTrip);
                 break;
             case R.id.nav_logout:
-                Intent intentToLogin = new Intent(HomeActivity.this,LoginActivity.class);
+                Intent intentToLogin = new Intent(HomeActivity.this, LoginActivity.class);
                 intentToLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentToLogin);
+                finish();
                 break;
         }
 
@@ -230,5 +279,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Back button is " +
                     "locked!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

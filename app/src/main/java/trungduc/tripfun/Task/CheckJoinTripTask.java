@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,15 +19,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import trungduc.tripfun.Activities.HomeActivity;
 import trungduc.tripfun.Activities.MainActivity;
 import trungduc.tripfun.Models.Constants;
@@ -58,14 +51,24 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        // check user join trip
         request = new StringRequest(Request.Method.POST, Constants.url_check_join_trip, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
                 try {
-                    JSONObject jsonObject = new JSONObject(response);
+                    final JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){
                         Log.d("SUCCESS", "onResponse: "+jsonObject.getString(Constants.TAG_SUCCESS));
                         final String trip_ID = jsonObject.getString(Constants.TAG_TRIPID); //set tripID
+                        final String userID1 = jsonObject.getString("userID1");
+                        String userID2 = jsonObject.getString("userID2");
+                        String userID3 = jsonObject.getString("userID3");
+                        String userID4 = jsonObject.getString("userID4");
+                        String userID5 = jsonObject.getString("userID5");
+                        String userID6 = jsonObject.getString("userID6");
+                        String userID7 = jsonObject.getString("userID7");
+                        String userID8 = jsonObject.getString("userID8");
+                        String userID9 = jsonObject.getString("userID9");
                         String message = "You have a message";//set message for dialog
                         //show dialog
                         dialog = new Dialog(context);
@@ -77,6 +80,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                             @Override
                             public void onClick(View v) {
                                 dialog.cancel();
+                                //get tripdetails
                                 request = new StringRequest(Request.Method.POST, Constants.url_check_join_trip, new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
@@ -105,6 +109,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
 
                                             Intent intent = new Intent(context,HomeActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            //send user info
                                             intent.putExtra(Constants.TAG_USERID,String.valueOf(MainActivity.userLocal.getUser_id()));
                                             intent.putExtra(Constants.TAG_USERNAME,MainActivity.userLocal.getName());
                                             intent.putExtra(Constants.TAG_USERBIRTH,MainActivity.userLocal.getBirth());
@@ -129,7 +134,14 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                                             intent.putExtra(Constants.TAG_LUGGAGE, luggage);
                                             intent.putExtra(Constants.TAG_PLAN, plan);
                                             intent.putExtra(Constants.TAG_WGENDER, wgender);
-
+                                            //send user id in trip active
+                                            intent.putExtra("userID1",userID1);
+                                            for (int i = 2;i<10;i++){
+                                                String customer = jsonObject.getString("userID"+i);
+                                                if (customer!=null){
+                                                    intent.putExtra("userID"+i,customer);
+                                                }
+                                            }
                                             context.startActivity(intent);
 
                                         } catch (JSONException e) {

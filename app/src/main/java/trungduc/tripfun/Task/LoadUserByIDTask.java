@@ -43,10 +43,10 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-//        pDialog = new ProgressDialog(context);
-//        pDialog.setMessage("Please wait...");
-//        pDialog.setCancelable(false);
-//        pDialog.show();
+        pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
     @Override
     protected String doInBackground(String... strings) {
@@ -88,13 +88,6 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
 
                     listUserDetails.add(userdetail);
                 }
-//            if (listUserDetails.size() == 0){
-//                // no products found
-//                // Launch Add New product Activity
-//                Intent intent = new Intent(context,FindTripActivity.class);
-//                // Closing all previous activities
-//                context.startActivity(intent);
-//            }
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -103,9 +96,9 @@ public class LoadUserByIDTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-//        if (pDialog.isShowing()) {
-//            pDialog.dismiss();
-//        }
+        if (pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
         user.setUser_id(listUserDetails.get(0).getUser_id());
         user.setName(listUserDetails.get(0).getName());
         user.setPhonenumber(listUserDetails.get(0).getPhonenumber());

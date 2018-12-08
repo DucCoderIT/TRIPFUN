@@ -12,13 +12,13 @@ import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.User;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Task.CheckJoinTripTask;
+import trungduc.tripfun.Task.LoadUserByIDTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "MainActivity";
     private Button btnUpTrip_H,btnFindTrip_H; // _H = _Home
     private int countPressBack = 0;
     private CheckJoinTripTask checkJoinTripTask;
-
     public static User userLocal = new User();
 
 
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         handle();
 
         Intent intent = getIntent();
-
         String user_id = intent.getStringExtra(Constants.TAG_USERID);
         String user_name = intent.getStringExtra(Constants.TAG_USERNAME);
         String user_birth = intent.getStringExtra(Constants.TAG_USERBIRTH);
@@ -38,10 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String user_email = intent.getStringExtra(Constants.TAG_USEREMAIL);
         String user_status = intent.getStringExtra(Constants.TAG_USERSTATUS);
         String user_evaluation = intent.getStringExtra(Constants.TAG_EVALUATION);
-
         Log.d(TAG, "onActivityResult: "+ user_id +user_name+ user_birth+user_phonenumber+user_gender+user_email+user_status+user_evaluation);
-
-
+        //set value for owner app
         userLocal.setUser_id(Integer.parseInt(user_id));
         userLocal.setName(user_name);
         userLocal.setBirth(user_birth);
@@ -59,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onStart: ");
         checkJoinTripTask = new CheckJoinTripTask(MainActivity.this);
         checkJoinTripTask.execute();
+
     }
 
     @Override

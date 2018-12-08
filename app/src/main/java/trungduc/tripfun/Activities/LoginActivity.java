@@ -102,14 +102,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.names().get(0).equals("success")){ //get name response after equals success
+                            if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){ //get name response after equals success
                                 Toast.makeText(getApplicationContext(), jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
                                 final String username = edtUserName.getText().toString();
                                 final String password = edtPassword.getText().toString();
                                 LoadUserTask loadUserTask = new LoadUserTask(LoginActivity.this,username,password);
                                 loadUserTask.execute();
                             }else{
-                                Toast.makeText(getApplicationContext(), "Error"+
+                                Toast.makeText(getApplicationContext(), Constants.TAG_ERROR+
                                         jsonObject.getString(Constants.TAG_ERROR), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -125,8 +125,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String,String> hashMap = new HashMap<String,String>();
-                        hashMap.put("username",edtUserName.getText().toString());
-                        hashMap.put("password",edtPassword.getText().toString());
+                        hashMap.put(Constants.TAG_USER_USERNAME,edtUserName.getText().toString());
+                        hashMap.put(Constants.TAG_USER_PASSWORD,edtPassword.getText().toString());
                         hashMap.put("login","yes");
                         return hashMap;
                     }
