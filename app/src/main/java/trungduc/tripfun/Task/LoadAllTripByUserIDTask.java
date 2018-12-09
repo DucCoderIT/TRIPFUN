@@ -1,30 +1,17 @@
 package trungduc.tripfun.Task;
 
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import trungduc.tripfun.Activities.FindTripActivity;
 import trungduc.tripfun.Activities.HomeActivity;
-import trungduc.tripfun.Activities.ShowTripDetailsActivity;
-import trungduc.tripfun.Adapters.TripdetailsAdapter;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.JSONParser;
 import trungduc.tripfun.Models.Tripdetails;

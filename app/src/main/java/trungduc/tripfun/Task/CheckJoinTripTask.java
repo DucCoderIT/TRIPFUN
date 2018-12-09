@@ -35,9 +35,11 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
     private Dialog dialogHaveMessage;
     private StringRequest request;
     private RequestQueue requestQueue;
+    private int userID;
 
-    public CheckJoinTripTask(Context context) {
+    public CheckJoinTripTask(Context context,int userID) {
         this.context = context;
+        this.userID = userID;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                     if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){
                         Log.d("SUCCESS", "onResponse: "+jsonObject.getString(Constants.TAG_SUCCESS));
                         final String trip_ID = jsonObject.getString(Constants.TAG_TRIPID); //set tripID
-                        final String userID1 = jsonObject.getString("userID1");
+
                         String message = "Bạn có chuyến đi đang trong hàng chờ!";//set message for dialogHaveMessage
                         //show dialogHaveMessage
                         dialogHaveMessage = new Dialog(context);
@@ -129,8 +131,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
                                             intent.putExtra(Constants.TAG_PLAN, plan);
                                             intent.putExtra(Constants.TAG_WGENDER, wgender);
                                             //send user id in trip active
-                                            intent.putExtra("userID1",userID1);
-                                            for (int i = 2; i<10; i++){
+                                            for (int i = 1; i<10; i++){
                                                 if (!jsonObject.getString("userID"+i).equals("null")){
                                                     intent.putExtra("userID"+i,jsonObject.getString("userID"+i));
                                                 }
@@ -186,7 +187,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> hashMap = new HashMap<String,String>();
-                hashMap.put(Constants.TAG_USERID,String.valueOf(MainActivity.userLocal.getUser_id()));
+                hashMap.put(Constants.TAG_USERID,String.valueOf(userID));
                 return hashMap;
             }
         };

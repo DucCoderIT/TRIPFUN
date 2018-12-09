@@ -1,6 +1,9 @@
 package trungduc.tripfun.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.User;
@@ -125,7 +130,13 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
             case R.id.btnGo_STD:
                 final int tripUserID = Integer.parseInt(trip_userID);
                 if (UserLocal.getUser_id() == tripUserID ){
-                    Toast.makeText(this, "Đây là chuyến do bạn đăng! Không thể book! Hãy tìm chuyến đi khác", Toast.LENGTH_LONG).show();
+                    Dialog dialogMessage = new Dialog(ShowTripDetailsActivity.this);
+                    dialogMessage.setContentView(R.layout.message_dialog);
+                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                    tvMsg.setText("Đây là chuyến do bạn đăng!\nKhông thể book!\nHãy tìm chuyến đi khác");
+                    dialogMessage.setCancelable(true);
+                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialogMessage.show();
                 }else{
                     stringRequest = new StringRequest(Request.Method.POST, Constants.url_join_trip, new Response.Listener<String>() {
                         @Override
@@ -133,40 +144,31 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){
-                                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    // send user info
-                                    intent.putExtra(Constants.TAG_USERID,String.valueOf(UserLocal.getUser_id()));
-                                    intent.putExtra(Constants.TAG_USERNAME,UserLocal.getName() );
-                                    intent.putExtra(Constants.TAG_USERBIRTH,UserLocal.getBirth());
-                                    intent.putExtra(Constants.TAG_USERPHONENUMBER,UserLocal.getPhonenumber());
-                                    intent.putExtra(Constants.TAG_USERGENDER,UserLocal.getGender());
-                                    intent.putExtra(Constants.TAG_USEREMAIL,UserLocal.getEmail());
-                                    intent.putExtra(Constants.TAG_USERSTATUS,UserLocal.getStatus());
-                                    intent.putExtra(Constants.TAG_USEREMAIL,UserLocal.getEmail());
-                                    intent.putExtra(Constants.TAG_USERSTATUS,UserLocal.getStatus());
-                                    intent.putExtra(Constants.TAG_EVALUATION,String.valueOf(UserLocal.getEvaluation()));
-                                    //send trip info
-                                    intent.putExtra(Constants.TAG_TRIPID,String.valueOf(trip_id));
-                                    intent.putExtra(Constants.TAG_TRIPUSERID,String.valueOf(trip_userID));
-                                    intent.putExtra(Constants.TAG_ORIGIN, trip_ori);
-                                    intent.putExtra(Constants.TAG_DESTINATION, trip_des);
-                                    intent.putExtra(Constants.TAG_DATE, trip_date);
-                                    intent.putExtra(Constants.TAG_TIME, trip_time);
-                                    intent.putExtra(Constants.TAG_TYPEVEHICLE, trip_vehicle);
-                                    intent.putExtra(Constants.TAG_POSITION, trip_position);
-                                    intent.putExtra(Constants.TAG_EMPTYSEAT, trip_emptyseat);
-                                    intent.putExtra(Constants.TAG_FULLSEAT, trip_fullseat);
-                                    intent.putExtra(Constants.TAG_SEATPRICE, trip_seatprice);
-                                    intent.putExtra(Constants.TAG_SERVICE, trip_service);
-                                    intent.putExtra(Constants.TAG_LUGGAGE, trip_luggage);
-                                    intent.putExtra(Constants.TAG_PLAN, trip_plan);
-                                    intent.putExtra(Constants.TAG_WGENDER, trip_wgender);
-                                    startActivity(intent);
-                                    finish();
+                                    final Dialog dialogMessage = new Dialog(ShowTripDetailsActivity.this);
+                                    dialogMessage.setContentView(R.layout.message_dialog);
+                                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                                    tvMsg.setText(jsonObject.getString(Constants.TAG_SUCCESS));
+                                    dialogMessage.setCancelable(false);
+                                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialogMessage.show();
+                                    Timer timer = new Timer();
+                                    timer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            dialogMessage.cancel();
+                                            gotoHome();
+                                        }
+                                    },2000);
+
                                 }
                                 else {
-                                    Toast.makeText(ShowTripDetailsActivity.this, jsonObject.getString(Constants.TAG_ERROR), Toast.LENGTH_SHORT).show();
+                                    Dialog dialogMessage = new Dialog(ShowTripDetailsActivity.this);
+                                    dialogMessage.setContentView(R.layout.message_dialog);
+                                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                                    tvMsg.setText(jsonObject.getString(Constants.TAG_ERROR));
+                                    dialogMessage.setCancelable(true);
+                                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialogMessage.show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -211,5 +213,38 @@ public class ShowTripDetailsActivity extends AppCompatActivity implements View.O
         btnGo_STD.setOnClickListener(this);
 
         requestQueue = Volley.newRequestQueue(this);
+    }
+    private void gotoHome(){
+        Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        // send user info
+        intent.putExtra(Constants.TAG_USERID,String.valueOf(UserLocal.getUser_id()));
+        intent.putExtra(Constants.TAG_USERNAME,UserLocal.getName() );
+        intent.putExtra(Constants.TAG_USERBIRTH,UserLocal.getBirth());
+        intent.putExtra(Constants.TAG_USERPHONENUMBER,UserLocal.getPhonenumber());
+        intent.putExtra(Constants.TAG_USERGENDER,UserLocal.getGender());
+        intent.putExtra(Constants.TAG_USEREMAIL,UserLocal.getEmail());
+        intent.putExtra(Constants.TAG_USERSTATUS,UserLocal.getStatus());
+        intent.putExtra(Constants.TAG_USEREMAIL,UserLocal.getEmail());
+        intent.putExtra(Constants.TAG_USERSTATUS,UserLocal.getStatus());
+        intent.putExtra(Constants.TAG_EVALUATION,String.valueOf(UserLocal.getEvaluation()));
+        //send trip info
+        intent.putExtra(Constants.TAG_TRIPID,String.valueOf(trip_id));
+        intent.putExtra(Constants.TAG_TRIPUSERID,String.valueOf(trip_userID));
+        intent.putExtra(Constants.TAG_ORIGIN, trip_ori);
+        intent.putExtra(Constants.TAG_DESTINATION, trip_des);
+        intent.putExtra(Constants.TAG_DATE, trip_date);
+        intent.putExtra(Constants.TAG_TIME, trip_time);
+        intent.putExtra(Constants.TAG_TYPEVEHICLE, trip_vehicle);
+        intent.putExtra(Constants.TAG_POSITION, trip_position);
+        intent.putExtra(Constants.TAG_EMPTYSEAT, trip_emptyseat);
+        intent.putExtra(Constants.TAG_FULLSEAT, trip_fullseat);
+        intent.putExtra(Constants.TAG_SEATPRICE, trip_seatprice);
+        intent.putExtra(Constants.TAG_SERVICE, trip_service);
+        intent.putExtra(Constants.TAG_LUGGAGE, trip_luggage);
+        intent.putExtra(Constants.TAG_PLAN, trip_plan);
+        intent.putExtra(Constants.TAG_WGENDER, trip_wgender);
+        startActivity(intent);
+        finish();
     }
 }

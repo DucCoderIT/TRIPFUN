@@ -1,12 +1,16 @@
 package trungduc.tripfun.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
@@ -85,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (countPressBack == 2){
             finish();
             moveTaskToBack(true);
-        }else Toast.makeText(this, "Nhấn thêm 1 lần để thoát!", Toast.LENGTH_SHORT).show();
+        }else Toast.makeText(this, "Nhấn thêm 1 lần để thoát!", Toast.LENGTH_LONG).show();
 
     }
 
@@ -108,10 +114,29 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){
-                                    Toast.makeText(SignUpActivity.this, jsonObject.getString(Constants.TAG_SUCCESS), Toast.LENGTH_SHORT).show();
-                                    goBackSignIn(username,password);
+                                    final Dialog dialogMessage = new Dialog(SignUpActivity.this);
+                                    dialogMessage.setContentView(R.layout.message_dialog);
+                                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                                    tvMsg.setText(jsonObject.getString(Constants.TAG_SUCCESS));
+                                    dialogMessage.setCancelable(true);
+                                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialogMessage.show();
+                                    Timer timer = new Timer();
+                                    timer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            dialogMessage.cancel();
+                                            goBackSignIn(username,password);
+                                        }
+                                    },2000);
                                 }else{
-                                    Toast.makeText(SignUpActivity.this, jsonObject.getString(Constants.TAG_ERROR), Toast.LENGTH_SHORT).show();
+                                    Dialog dialogMessage = new Dialog(SignUpActivity.this);
+                                    dialogMessage.setContentView(R.layout.message_dialog);
+                                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                                    tvMsg.setText(jsonObject.getString(Constants.TAG_ERROR));
+                                    dialogMessage.setCancelable(true);
+                                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialogMessage.show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

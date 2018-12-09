@@ -83,7 +83,7 @@
                 android:paddingStart="10dp"
                 android:inputType="date"
                 android:background="@null"
-                android:text="10/10/2018"/>
+                android:hint="10/10/2018"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:paddingStart="10dp"
                 android:inputType="time"
                 android:background="@null"
-                android:text="10:10"/>
+                android:hint="10:10"/>
         </LinearLayout>
     </LinearLayout>
     <!-- Button next -->

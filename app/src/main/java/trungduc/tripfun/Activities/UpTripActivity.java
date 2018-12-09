@@ -6,10 +6,12 @@ import android.annotation.SuppressLint;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -61,7 +63,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.DirectionsParser;
 import trungduc.tripfun.R;
 import trungduc.tripfun.Adapters.PlaceAutocompleteAdapter;
@@ -90,7 +95,6 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
     // set position where appear when map ready
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,43 +108,36 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
         //call void date picker
         DateTimePicker();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
     }
-
     @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop: ");
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
     }
-
     @Override
     public void onBackPressed(){
         finish();
@@ -149,21 +146,57 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.btnNextToDetails:
                 String ori = mSearchTextOri.getText().toString();
                 String des = mSearchTextDes.getText().toString();
                 String date = edtDatePicker.getText().toString();
                 String time = edtTimePicker.getText().toString();
-
-                Toast.makeText(this, ori+" "+des+" "+date+" "+time, Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(getApplicationContext(),InputTripDetailsActivity.class);
-                intent.putExtra("ori",ori);
-                intent.putExtra("des",des);
-                intent.putExtra("date",date);
-                intent.putExtra("time",time);
-                startActivity(intent);
+                if (!ori.equals("")&&!des.equals("")&&!date.equals("")&&!time.equals("")){
+                    Intent intent = new Intent(getApplicationContext(),InputTripDetailsActivity.class);
+                    intent.putExtra("ori",ori);
+                    intent.putExtra("des",des);
+                    intent.putExtra("date",date);
+                    intent.putExtra("time",time);
+                    startActivity(intent);
+                }else{
+                    if (ori.equals("")){
+                        showMessageDialog("Địa điểm đi trống!\nVui lòng chọn địa điểm!");
+                    }else if(des.equals("")){
+                        showMessageDialog("Địa điểm đến trống!\nVui lòng nhập địa điểm!");
+                    }else if(date.equals("")){
+                        showMessageDialog("Ngày trống!\nVui lòng chọn ngày đi!");
+                    }else if (time.equals("")){
+                        showMessageDialog("Chưa chọn thời gian!\nVui lòng chọn thời gian!");
+                    }
+                }
+                break;
+            case R.id.edtDatePicker:
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                //date picker dialog
+                datePickerDialog = new DatePickerDialog(UpTripActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
+                                edtDatePicker.setText(dayOfMonth+"/"+(monthOfyear + 1)+"/"+year);
+                            }
+                        },year,month,day);
+                datePickerDialog.show();
+                break;
+            case R.id.edtTimePicker:
+                final Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                timePickerDialog = new TimePickerDialog(UpTripActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                edtTimePicker.setText(""+ hourOfDay+":"+ minute);
+                            }
+                        },hour,minute,true);
+                timePickerDialog.show();
                 break;
         }
     }
@@ -403,32 +436,25 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
             //Get list route and display it into the map
-
             ArrayList points = null;
-
             PolylineOptions polylineOptions = null;
-
             for (List<HashMap<String, String>> path : lists) {
                 points = new ArrayList();
                 polylineOptions = new PolylineOptions();
-
                 for (HashMap<String, String> point : path) {
                     double lat = Double.parseDouble(point.get("lat"));
                     double lon = Double.parseDouble(point.get("lon"));
-
                     points.add(new LatLng(lat,lon));
                 }
-
                 polylineOptions.addAll(points);
                 polylineOptions.width(15);
                 polylineOptions.color(Color.BLUE);
                 polylineOptions.geodesic(true);
             }
-
             if (polylineOptions!=null) {
                 mMap.addPolyline(polylineOptions);
             } else {
-                Toast.makeText(getApplicationContext(), "Direction not found!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Không tìm thấy đường hướng dẫn!", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -499,9 +525,8 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
         mapView = mapFragment.getView();
         mapFragment.getMapAsync(UpTripActivity.this);
     }
-
     //hide keyboard
-    public void hideSoftKeyboard(Activity activity) {
+    private void hideSoftKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
@@ -512,46 +537,14 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
     //date & time picker
-    public void DateTimePicker(){
+    private void DateTimePicker(){
         edtDatePicker.setInputType(InputType.TYPE_NULL);
         edtTimePicker.setInputType(InputType.TYPE_NULL);
-        edtDatePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                //date picker dialog
-                datePickerDialog = new DatePickerDialog(UpTripActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
-                                edtDatePicker.setText(dayOfMonth+"/"+(monthOfyear + 1)+"/"+year);
-                            }
-                        },year,month,day);
-                datePickerDialog.show();
-            }
-        });
-        edtTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                timePickerDialog = new TimePickerDialog(UpTripActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                edtTimePicker.setText(""+ hourOfDay+":"+ minute);
-                            }
-                        },hour,minute,true);
-                timePickerDialog.show();
-            }
-        });
+        edtDatePicker.setOnClickListener(this);
+        edtTimePicker.setOnClickListener(this);
     }
     // declare view
-    public void handle(){
+    private void handle(){
         mSearchTextOri =(AutoCompleteTextView) findViewById(R.id.edt_ori_search);
         mSearchTextDes =(AutoCompleteTextView) findViewById(R.id.edt_des_search);
         edtDatePicker = (EditText) findViewById(R.id.edtDatePicker);
@@ -560,5 +553,15 @@ public class UpTripActivity extends FragmentActivity implements OnMapReadyCallba
         btnNextToDetails = (Button) findViewById(R.id.btnNextToDetails);
         btnNextToDetails.setOnClickListener(this);
         //btnFindTrip_H.setOnClickListener(this);
+    }
+    //show message dialog
+    private void showMessageDialog(String s){
+        Dialog dialogMessage = new Dialog(UpTripActivity.this);
+        dialogMessage.setContentView(R.layout.message_dialog);
+        TextView tvMessage = (TextView) dialogMessage.findViewById(R.id.tvMessageDialog);
+        tvMessage.setText(s);
+        dialogMessage.setCancelable(true);
+        dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogMessage.show();
     }
 }

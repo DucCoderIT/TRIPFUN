@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_dark">
-
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:background="@android:color/holo_blue_dark">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical"
+        android:text="Những chuyến đã đi"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/findtrip_bg"/>
     <ListView
-    android:id="@+id/lvAllTripByUserID"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
-
-</RelativeLayout>
+        android:id="@+id/lvTripDone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical"
+        android:text="Các chuyến đang chờ"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/findtrip_bg"/>
+    <ListView
+        android:id="@+id/lvAllTripByUserID"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
+</LinearLayout>

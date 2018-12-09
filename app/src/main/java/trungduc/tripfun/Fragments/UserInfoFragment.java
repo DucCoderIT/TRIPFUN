@@ -1,11 +1,13 @@
 package trungduc.tripfun.Fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +27,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 import trungduc.tripfun.Activities.HomeActivity;
+import trungduc.tripfun.Activities.LoginActivity;
+import trungduc.tripfun.Activities.MainActivity;
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
 
@@ -43,14 +49,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         v = inflater.inflate(R.layout.fragment_user_info, container, false);
 
         ViewHandle();
-
-        tvName.setText(HomeActivity.userLocal.getName());
-        tvBirth.setText(HomeActivity.userLocal.getBirth());
-        tvGender.setText(HomeActivity.userLocal.getGender());
-        tvPhoneNumber.setText(HomeActivity.userLocal.getPhonenumber());
-        tvEmail.setText(HomeActivity.userLocal.getEmail());
-        tvEvaluation.setText(String.valueOf(HomeActivity.userLocal.getEvaluation()));
-
+        setInfoUser();
         return v;
     }
 
@@ -78,12 +77,14 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                         final String Gender = edtGender_change.getText().toString();
                         final String Email = edtEmail_change.getText().toString();
                         final String PhoneNumber = edtPhoneNumber_change.getText().toString();
-
+                        //if not change any thing------------
                         if (Name.equals(HomeActivity.userLocal.getName())&&Birth.equals(HomeActivity.userLocal.getBirth())&&
                                 Gender.equals(HomeActivity.userLocal.getGender())&&Email.equals(HomeActivity.userLocal.getEmail())&&
                                 PhoneNumber.equals(HomeActivity.userLocal.getPhonenumber())){
                             dialogChangeInfo.cancel();
-                        }else {
+                        }//VALIDATE------------------
+                        else if(!Name.equals("")&&!Birth.equals("")&&!Gender.equals("")&&!Email.equals("")&&!PhoneNumber.equals("")
+                                &&isValidateBirth(Birth)&&isValidatePhoneNumber(PhoneNumber)){
                             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
                                 @Override
@@ -117,6 +118,28 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                                     return hashMap;
                                 }
                             };requestQueue.add(stringRequest);
+                            HomeActivity.userLocal.setName(Name);
+                            HomeActivity.userLocal.setBirth(Birth);
+                            HomeActivity.userLocal.setGender(Gender);
+                            HomeActivity.userLocal.setEmail(Email);
+                            HomeActivity.userLocal.setPhonenumber(PhoneNumber);
+                            setInfoUser();
+                        }else{
+                            Dialog dialog = new Dialog(getContext());
+                            dialog.setContentView(R.layout.message_dialog);
+                            TextView tvMsg = (TextView) dialog.findViewById(R.id.tvMessageDialog);
+                            dialog.setCancelable(true);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            if (Name.equals("")||Birth.equals("")||Gender.equals("")||Email.equals("")||PhoneNumber.equals("")){
+                                tvMsg.setText("Không để trống!\nVui lòng kiểm tra lại!");
+                                dialog.show();
+                            }else if(!isValidateBirth(Birth)){
+                                tvMsg.setText("Năm sinh không phù hợp!\nVui lòng kiểm tra lại!");
+                                dialog.show();
+                            }else if(!isValidatePhoneNumber(PhoneNumber)){
+                                tvMsg.setText("Số điện thoại không đúng!\nVui lòng kiểm tra lại!");
+                                dialog.show();
+                            }
                         }
                     }
                 });
@@ -153,21 +176,40 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                         final String OldPassword = edtOldPassword_change.getText().toString();
                         final String NewPassword = edtNewPassword_change.getText().toString();
                         final String ReInputPassword = edtReInput_change.getText().toString();
-                        if (NewPassword.equals(ReInputPassword)){
+                        //=======VALIDATE=========
+                        if (!OldPassword.equals("")&&!NewPassword.equals("")&&!ReInputPassword.equals("")
+                                &&NewPassword.equals(ReInputPassword)){
                             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     try {
                                         JSONObject jsonObject = new JSONObject(response);
-                                        Dialog dialog = new Dialog(getContext());
+                                        final Dialog dialog = new Dialog(getContext());
                                         dialog.setContentView(R.layout.message_dialog);
                                         TextView tvMsg = (TextView) dialog.findViewById(R.id.tvMessageDialog);
                                         tvMsg.setText(jsonObject.getString(Constants.TAG_SUCCESS));
-                                        dialog.setCancelable(true);
+                                        dialog.setCancelable(false);
                                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                         dialog.show();
                                         dialogChangePassWord.cancel();
+                                        //Delay go to login activity
+                                        final Timer t = new java.util.Timer();
+                                        t.schedule(
+                                                new java.util.TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        // your code here
+                                                        // close the thread
+                                                        Intent intent= new Intent(getActivity(),LoginActivity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(intent);
+                                                        getActivity().finish();
+                                                        dialog.cancel();
+                                                    }
+                                                },
+                                                2000
+                                        );
                                     } catch (JSONException e) {e.printStackTrace();}
                                 }
                             }, new Response.ErrorListener() {
@@ -188,10 +230,17 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                             Dialog dialog = new Dialog(getContext());
                             dialog.setContentView(R.layout.message_dialog);
                             TextView tvMsg = (TextView) dialog.findViewById(R.id.tvMessageDialog);
-                            tvMsg.setText("Mật khẩu nhập lại không trùng khớp!");
                             dialog.setCancelable(true);
                             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            dialog.show();
+                            //if null
+                            if (OldPassword.equals("")||NewPassword.equals("")
+                                    ||ReInputPassword.equals("")){
+                                tvMsg.setText("Vui lòng nhập tất cả thông tin!");
+                                dialog.show();
+                            }else if (!NewPassword.equals(ReInputPassword)){
+                                tvMsg.setText("Mật khẩu nhập lại không trùng khớp!");
+                                dialog.show();
+                            }
                         }
                     }
                 });
@@ -208,7 +257,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-    public void ViewHandle(){
+    public void ViewHandle() {
         tvName = (TextView) v.findViewById(R.id.tvName_FU);
         tvBirth = (TextView) v.findViewById(R.id.tvBirth_FU);
         tvGender = (TextView) v.findViewById(R.id.tvGender_FU);
@@ -217,8 +266,28 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         tvEvaluation = (TextView) v.findViewById(R.id.tvEvalua_FU);
         btnChangeUserInfo = (Button) v.findViewById(R.id.btnChangeUserInfo);
         btnChangePassword = (Button) v.findViewById(R.id.btnChangePassword);
-
         btnChangeUserInfo.setOnClickListener(this);
         btnChangePassword.setOnClickListener(this);
     }
+
+    public void setInfoUser(){
+        tvName.setText(HomeActivity.userLocal.getName());
+        tvBirth.setText(HomeActivity.userLocal.getBirth());
+        tvGender.setText(HomeActivity.userLocal.getGender());
+        tvPhoneNumber.setText(HomeActivity.userLocal.getPhonenumber());
+        tvEmail.setText(HomeActivity.userLocal.getEmail());
+        tvEvaluation.setText(String.valueOf(HomeActivity.userLocal.getEvaluation()));
+    }
+    public boolean isValidateBirth(String value) {
+        String BirthPattern = "\\d{4}";
+        int check = Integer.parseInt(value);
+        Boolean isTrue = value.matches(BirthPattern);
+        if (check < 1900 || check > Calendar.getInstance().get(Calendar.YEAR)){
+           isTrue = false;
+        }
+        return isTrue; }
+    public boolean isValidatePhoneNumber(String value) {
+        String BirthPattern = "0\\d{9}";
+        Boolean isTrue = value.matches(BirthPattern);
+        return isTrue; }
 }

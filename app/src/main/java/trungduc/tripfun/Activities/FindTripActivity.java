@@ -6,10 +6,12 @@ import android.annotation.SuppressLint;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -63,6 +65,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.DirectionsParser;
 import trungduc.tripfun.Models.Tripdetails;
 import trungduc.tripfun.R;
@@ -150,17 +153,30 @@ public class FindTripActivity extends FragmentActivity implements OnMapReadyCall
             case R.id.btnFindTrip_FT:
                 String ori = mSearchTextOri.getText().toString();
                 String des = mSearchTextDes.getText().toString();
-                if (!(ori.equals("") && des.equals(""))){
-                    Toast.makeText(this, ori+" "+des, Toast.LENGTH_SHORT).show();
-
+                if (!ori.equals("") && !des.equals("")){
                     Intent intent = new Intent(getApplicationContext(),AllTripFoundActivity.class);
                     intent.putExtra("ori",ori);
                     intent.putExtra("des",des);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(this, "Vui lòng điền địa chỉ!", Toast.LENGTH_SHORT).show();
+                    if (ori.equals("")){
+                        Dialog dialogMessage = new Dialog(FindTripActivity.this);
+                        dialogMessage.setContentView(R.layout.message_dialog);
+                        TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                        tvMsg.setText("Vui lòng điền địa chỉ đi!");
+                        dialogMessage.setCancelable(true);
+                        dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialogMessage.show();
+                    }else if(des.equals("")){
+                        Dialog dialogMessage = new Dialog(FindTripActivity.this);
+                        dialogMessage.setContentView(R.layout.message_dialog);
+                        TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                        tvMsg.setText("Vui lòng chọn địa chỉ đến!");
+                        dialogMessage.setCancelable(true);
+                        dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialogMessage.show();
+                    }
                 }
-
                 break;
         }
     }

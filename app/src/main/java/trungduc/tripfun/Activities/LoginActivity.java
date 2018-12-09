@@ -1,12 +1,16 @@
 package trungduc.tripfun.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.R;
@@ -103,14 +109,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){ //get name response after equals success
-                                Toast.makeText(getApplicationContext(), jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, jsonObject.getString(Constants.TAG_SUCCESS), Toast.LENGTH_SHORT).show();
                                 final String username = edtUserName.getText().toString();
                                 final String password = edtPassword.getText().toString();
                                 LoadUserTask loadUserTask = new LoadUserTask(LoginActivity.this,username,password);
                                 loadUserTask.execute();
                             }else{
-                                Toast.makeText(getApplicationContext(), Constants.TAG_ERROR+
-                                        jsonObject.getString(Constants.TAG_ERROR), Toast.LENGTH_SHORT).show();
+                                Dialog dialogMessage = new Dialog(LoginActivity.this);
+                                dialogMessage.setContentView(R.layout.message_dialog);
+                                TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                                tvMsg.setText(jsonObject.getString(Constants.TAG_ERROR));
+                                dialogMessage.setCancelable(true);
+                                dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialogMessage.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -118,9 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }, new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
+                    public void onErrorResponse(VolleyError error) {}
                 }){
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {

@@ -10,18 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import trungduc.tripfun.Activities.FindTripActivity;
 import trungduc.tripfun.Activities.ShowTripDetailsActivity;
 import trungduc.tripfun.Adapters.TripdetailsAdapter;
@@ -31,7 +26,7 @@ import trungduc.tripfun.Models.Tripdetails;
 
 
 public class LoadFindTripTask extends AsyncTask<String, String, String> {
-    Context context;
+    Activity context;
     ListView lvTripdetails;
     ProgressDialog pDialog;
     JSONParser jParser;
@@ -42,7 +37,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
-    public LoadFindTripTask(Context context, ListView lvTripdetails,String origin_find,String destination_find) {
+    public LoadFindTripTask(Activity context, ListView lvTripdetails,String origin_find,String destination_find) {
         this.origin_find = origin_find;
         this.destination_find = destination_find;
         this.context = context;
@@ -101,9 +96,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                         // creating new tripdetail
                         String[] separated = date.split("-");
                         String myDate= separated[2] +"/" +separated[1]+"/" +separated[0];
-
                         java.util.Date ParseDate = format.parse(myDate);
-
                         Tripdetails tripdetail = new Tripdetails();
                         tripdetail.setTripID(Integer.parseInt(trip_id));
                         tripdetail.setUserID(Integer.parseInt(user_id));
@@ -122,9 +115,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                         tripdetail.setWgender(wgender);
                         tripdetail.setGender(userGender);
                         tripdetail.setEvaluation(userEvalua);
-
                     Log.d("LOG", "doInBackground: "+userGender+userEvalua);
-
                         listTripdetails.add(tripdetail);
                 }
             } if (listTripdetails.size() == 0){
@@ -133,6 +124,7 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
                 Intent intent = new Intent(context,FindTripActivity.class);
                 // Closing all previous activities
                 context.startActivity(intent);
+                context.finish();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,7 +137,6 @@ public class LoadFindTripTask extends AsyncTask<String, String, String> {
         if (pDialog.isShowing()) {
             pDialog.dismiss();
         }
-        Toast.makeText(context, ""+origin_find+" "+destination_find, Toast.LENGTH_SHORT).show();
         tripdetailsAdapter = new TripdetailsAdapter(context, listTripdetails);
         lvTripdetails.setAdapter(tripdetailsAdapter);
         lvTripdetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {

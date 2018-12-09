@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:orientation="vertical"
     android:weightSum="10"
     tools:context=".Activities.InputTripDetailsActivity">
@@ -31,7 +32,9 @@
             android:layout_weight="3"
             android:layout_gravity="center"
             android:paddingStart="5dp"
-            android:text="Bạn là:"/>
+            android:text="Bạn là:"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
         <RadioGroup
             android:id="@+id/group_position_IDe"
             android:layout_width="0dp"
@@ -69,7 +72,9 @@
             android:layout_weight="3"
             android:layout_gravity="center"
             android:paddingStart="5dp"
-            android:text="Phương tiện:"/>
+            android:text="Phương tiện:"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
         <RadioGroup
             android:id="@+id/group_vehicle_IDe"
             android:layout_width="0dp"
@@ -112,7 +117,9 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:paddingStart="5dp"
-                android:text="Ghế trống:"/>
+                android:text="Ghế trống:"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
             <EditText
                 android:id="@+id/edt_emptyseat_IDe"
                 android:layout_width="0dp"
@@ -122,6 +129,8 @@
                 android:inputType="number"
                 android:hint="1"
                 android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:background="@color/bgTripItem"/>
         </LinearLayout>
@@ -137,7 +146,9 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:paddingStart="5dp"
-                android:text="Tổng ghế:"/>
+                android:text="Tổng ghế:"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
             <EditText
                 android:id="@+id/edt_fullseat_IDe"
                 android:layout_width="0dp"
@@ -146,6 +157,8 @@
                 android:layout_gravity="center"
                 android:inputType="number"
                 android:hint="2"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:background="@color/bgTripItem"/>
@@ -163,7 +176,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:paddingStart="5dp"
-            android:text="Chi phí:"/>
+            android:text="Chi phí:"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -177,8 +192,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="4.5"
                 android:layout_gravity="top"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:background="@color/bgTripItem"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -191,7 +212,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:hint="50000"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
                     android:textAlignment="center"
                     android:background="@color/bgTripItem"/>
                 <TextView
@@ -199,7 +222,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text=" / 1 ghế"/>
+                    android:text=" / 1 ghế"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -217,13 +242,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Hành lý:"/>
+            android:text="Hành lý:"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
         <Spinner
             android:id="@+id/sp_luggage_IDe"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="5"
-            android:textSize="15sp"
+            android:textSize="22sp"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:background="@color/bgTripItem"/>
     </LinearLayout>
@@ -240,12 +268,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Kế hoạch:"/>
+            android:text="Kế hoạch:"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
         <Spinner
             android:id="@+id/sp_plan_IDe"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="5"
+            android:textSize="22sp"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:background="@color/bgTripItem"/>
     </LinearLayout>
@@ -262,12 +294,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Muốn đi cùng:"/>
+            android:text="Muốn đi cùng:"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
         <Spinner
             android:id="@+id/sp_wgender_IDe"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="5"
+            android:textSize="22sp"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:background="@color/bgTripItem"/>
     </LinearLayout>
@@ -279,8 +315,12 @@
         android:gravity="center">
         <Button
             android:id="@+id/btn_Uptrip_IDe"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Đăng chuyến"/>
+            android:text="Đăng chuyến"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@color/bgCostItem"/>
     </LinearLayout>
 </LinearLayout>

@@ -68,7 +68,11 @@ public class TripdetailsAdapter extends BaseAdapter {
         viewHolder.tvOri.setText(tripdetails.getOrigin());
         viewHolder.tvDes.setText(tripdetails.getDestination());
         viewHolder.tvVehicle.setText(tripdetails.getTypevehicle());
-        viewHolder.tvSeatPrice.setText(tripdetails.getSeatprice()+"");
+        if(tripdetails.getSeatprice()<1000||tripdetails.getSeatprice()==0){
+            viewHolder.tvSeatPrice.setText("FREE");
+        }else{
+            viewHolder.tvSeatPrice.setText(tripdetails.getSeatprice()/1000+"K");
+        }
         viewHolder.tvDriveGender.setText(tripdetails.getGender());
         viewHolder.tvEvalua.setText(tripdetails.getEvaluation());
         return view;

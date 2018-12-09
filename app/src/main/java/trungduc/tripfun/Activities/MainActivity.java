@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
-        checkJoinTripTask = new CheckJoinTripTask(MainActivity.this);
+        checkJoinTripTask = new CheckJoinTripTask(MainActivity.this,MainActivity.userLocal.getUser_id());
         checkJoinTripTask.execute();
 
     }

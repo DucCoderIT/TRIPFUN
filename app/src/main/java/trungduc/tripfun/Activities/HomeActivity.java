@@ -1,5 +1,5 @@
 package trungduc.tripfun.Activities;
-;
+
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,9 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import trungduc.tripfun.Fragments.AppInfoFragment;
 import trungduc.tripfun.Fragments.UserInfoFragment;
 import trungduc.tripfun.Fragments.ManagerTripFragment;
@@ -24,6 +22,7 @@ import trungduc.tripfun.Models.Constants;
 import trungduc.tripfun.Models.Tripdetails;
 import trungduc.tripfun.Models.User;
 import trungduc.tripfun.R;
+import trungduc.tripfun.Task.CheckJoinTripTask;
 import trungduc.tripfun.Task.LoadAllTripByUserIDTask;
 import trungduc.tripfun.Task.LoadUserByIDTask;
 
@@ -31,6 +30,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private String TAG = "HomeActivity";
     private DrawerLayout drawer;
     public LoadAllTripByUserIDTask loadAllTripByUserIDTask;
+    private CheckJoinTripTask checkJoinTripTask;
     public String trip_date, trip_time;
     public static ArrayList<Tripdetails> listTripdetails = new ArrayList<>();
     public static User userLocal = new User();
@@ -44,11 +44,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         Log.d(TAG, "onCreate: ");
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-
         drawer = findViewById(R.id.drawer_layout);
 
         //get data from previous activity----------------

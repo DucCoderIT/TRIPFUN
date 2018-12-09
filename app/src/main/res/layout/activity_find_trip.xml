@@ -65,7 +65,9 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:text="@string/findtrip"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:textColor="@color/text_search_address"
-        android:background="@color/white"
+        android:background="@drawable/white_border"
         />
 </RelativeLayout>

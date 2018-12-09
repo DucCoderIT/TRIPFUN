@@ -187,13 +187,13 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/imgUser_FU"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_account"/>
     <TextView
         android:id="@+id/tvName_FU"
         android:layout_width="200dp"
