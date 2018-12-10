@@ -27,8 +27,6 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
     JSONArray userdetails = null;
     String username , password, userID ;
 
-
-
     public LoadUserTask(Context context,String username,String password) {
         this.context = context;
         this.username = username;
@@ -41,7 +39,7 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Please wait...");
+        pDialog.setMessage("Vui lòng đợi...");
         pDialog.setCancelable(false);
         pDialog.show();
     }
@@ -89,13 +87,6 @@ public class LoadUserTask extends AsyncTask<String, String, String> {
 
                     listUserDetails.add(userdetail);
                 }
-//            if (listUserDetails.size() == 0){
-//                // no products found
-//                // Launch Add New product Activity
-//                Intent intent = new Intent(context,FindTripActivity.class);
-//                // Closing all previous activities
-//                context.startActivity(intent);
-//            }
             }catch (Exception e) {
                 e.printStackTrace();
             }

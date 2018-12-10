@@ -243,7 +243,7 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/tvSeatprice"
-                    android:background="@drawable/login_background_gradient"/>LinearLayout>
+                    android:background="@drawable/login_background_gradient"/>
                 <Button
                     android:id="@+id/btnChangeTripCancel"
                     android:layout_width="0dp"

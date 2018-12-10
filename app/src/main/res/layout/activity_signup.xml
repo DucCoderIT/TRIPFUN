@@ -51,7 +51,7 @@
                 android:gravity="center_vertical"
                 android:inputType="text"
                 android:textSize="18sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textColorHint="@color/white"
                 android:hint="Nguyen Trung Duc"
                 android:background="@color/opacity0"/>

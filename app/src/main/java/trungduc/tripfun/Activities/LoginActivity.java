@@ -37,7 +37,7 @@ import trungduc.tripfun.Task.LoadUserTask;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private String TAG = "LoginActivity";
     private EditText edtUserName, edtPassword;
-    private Button btnSignIn,btnSignUp;
+    private Button btnSignIn,btnSignUp,btnFBsignIn,btnGGsignIn;
     private RequestQueue requestQueue;
     private StringRequest request;
     private int countPressBack = 0;
@@ -103,50 +103,131 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSignIn:
-                request = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)){ //get name response after equals success
-                                Toast.makeText(LoginActivity.this, jsonObject.getString(Constants.TAG_SUCCESS), Toast.LENGTH_SHORT).show();
-                                final String username = edtUserName.getText().toString();
-                                final String password = edtPassword.getText().toString();
-                                LoadUserTask loadUserTask = new LoadUserTask(LoginActivity.this,username,password);
-                                loadUserTask.execute();
-                            }else{
-                                Dialog dialogMessage = new Dialog(LoginActivity.this);
-                                dialogMessage.setContentView(R.layout.message_dialog);
-                                TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
-                                tvMsg.setText(jsonObject.getString(Constants.TAG_ERROR));
-                                dialogMessage.setCancelable(true);
-                                dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                dialogMessage.show();
+                final String username = edtUserName.getText().toString();
+                final String password = edtPassword.getText().toString();
+                if (!username.equals("")&&!password.equals("")) {
+                    request = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                if (jsonObject.names().get(0).equals(Constants.TAG_SUCCESS)) { //get name response after equals success
+                                    Toast.makeText(LoginActivity.this, jsonObject.getString(Constants.TAG_SUCCESS), Toast.LENGTH_SHORT).show();
+
+                                    LoadUserTask loadUserTask = new LoadUserTask(LoginActivity.this, username, password);
+                                    loadUserTask.execute();
+                                } else {
+                                    Dialog dialogMessage = new Dialog(LoginActivity.this);
+                                    dialogMessage.setContentView(R.layout.message_dialog);
+                                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                                    tvMsg.setText(jsonObject.getString(Constants.TAG_ERROR));
+                                    dialogMessage.setCancelable(true);
+                                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialogMessage.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String, String> hashMap = new HashMap<String, String>();
+                            hashMap.put(Constants.TAG_USER_USERNAME, edtUserName.getText().toString());
+                            hashMap.put(Constants.TAG_USER_PASSWORD, edtPassword.getText().toString());
+                            hashMap.put("login", "yes");
+                            return hashMap;
+                        }
+                    };
+                    requestQueue.add(request);
+                }else{
+                        Dialog dialogMessage = new Dialog(LoginActivity.this);
+                        dialogMessage.setContentView(R.layout.message_dialog);
+                        TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                        dialogMessage.setCancelable(true);
+                        dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    if (username.equals("")){
+                        tvMsg.setText("Tên tài khoản không được để trống!");
+                        dialogMessage.show();
+                    }else if(password.equals("")){
+                        tvMsg.setText("Mật khẩu không được để trống!");
+                        dialogMessage.show();
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {}
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> hashMap = new HashMap<String,String>();
-                        hashMap.put(Constants.TAG_USER_USERNAME,edtUserName.getText().toString());
-                        hashMap.put(Constants.TAG_USER_PASSWORD,edtPassword.getText().toString());
-                        hashMap.put("login","yes");
-                        return hashMap;
-                    }
-                };
-                requestQueue.add(request);
+                }
                 break;
             case R.id.btnSignUp:
+                Log.d(TAG, "onClick: sign up");
                 Intent intent = new Intent(getApplicationContext(),SignUpActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.btn_FBsign:
+                Log.d(TAG, "onClick: login by facebook");
+                final Dialog dialogFBClick = new Dialog(LoginActivity.this);
+                dialogFBClick.setContentView(R.layout.have_message_dialog);
+                TextView tvMessage = (TextView) dialogFBClick.findViewById(R.id.tvMessage);
+                tvMessage.setText("Xin lỗi!\nHiện tại chúng tôi chưa hổ trợ đăng nhập bằng FACE BOOK\nBạn có thể đăng ký tài khoản rất nhanh!");
+                Button btnSignUpFB = (Button) dialogFBClick.findViewById(R.id.btnJoinTrip);
+                btnSignUpFB.setText("Đăng ký tài khoản");
+                btnSignUpFB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogFBClick.cancel();
+                        Log.d(TAG, "onClick: sign up");
+                        Intent intent = new Intent(getApplicationContext(),SignUpActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                Button btnCancelGG = (Button) dialogFBClick.findViewById(R.id.btnCancleJoinTrip);
+                btnCancelGG.setText("Hủy");
+                btnCancelGG.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogFBClick.cancel();
+                    }
+                });
+                dialogFBClick.setCancelable(false);
+                dialogFBClick.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogFBClick.show();
+                break;
+            case R.id.btn_GGsign:
+                Log.d(TAG, "onClick: login by gmail");
+                final Dialog dialogGGClick = new Dialog(LoginActivity.this);
+                dialogGGClick.setContentView(R.layout.have_message_dialog);
+                TextView tvMessageGG = (TextView) dialogGGClick.findViewById(R.id.tvMessage);
+                tvMessageGG.setText("Xin lỗi!\nHiện tại chúng tôi chưa hổ trợ đăng nhập bằng GMAIL\nBạn có thể đăng ký tài khoản rất nhanh!");
+                Button btnSignUpGG = (Button) dialogGGClick.findViewById(R.id.btnJoinTrip);
+                btnSignUpGG.setText("Đăng ký tài khoản");
+                btnSignUpGG.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogGGClick.cancel();
+                        Log.d(TAG, "onClick: sign up");
+                        Intent intent = new Intent(getApplicationContext(),SignUpActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                Button btnCancleGG = (Button) dialogGGClick.findViewById(R.id.btnCancleJoinTrip);
+                btnCancleGG.setText("Hủy");
+                btnCancleGG.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogGGClick.cancel();
+                    }
+                });
+                dialogGGClick.setCancelable(false);
+                dialogGGClick.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogGGClick.show();
+                break;
         }
     }
 
@@ -155,8 +236,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnFBsignIn = (Button) findViewById(R.id.btn_FBsign);
+        btnGGsignIn = (Button) findViewById(R.id.btn_GGsign);
         btnSignIn.setOnClickListener(this);
         btnSignUp.setOnClickListener(this);
+        btnFBsignIn.setOnClickListener(this);
+        btnGGsignIn.setOnClickListener(this);
         requestQueue = Volley.newRequestQueue(this);
     }
 }

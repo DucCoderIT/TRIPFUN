@@ -46,7 +46,7 @@ public class CheckJoinTripTask extends AsyncTask<String,String,String> {
     protected void onPreExecute() {
         super.onPreExecute();
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Checking join trip!");
+        progressDialog.setMessage("Đang kiểm tra...!");
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -107,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 final String password = edtPassword_SUp.getText().toString();
                 final String email = edtEmail_SUp.getText().toString();
                 if (!(name.equals("") && email.equals("")&& username.equals("") && password.equals("") && phonenumber.equals("")
-                        && birth.equals("") && gender.equals(""))){
+                        && birth.equals("") && gender.equals(""))&&isValidateBirth(birth)&&isValidatePhoneNumber(phonenumber)&&password.length()>8){
                     request = new StringRequest(Request.Method.POST, Constants.url_user_control, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -163,6 +164,43 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     };
                     requestQueue.add(request);
+                }else{
+                    Dialog dialogMessage = new Dialog(SignUpActivity.this);
+                    dialogMessage.setContentView(R.layout.message_dialog);
+                    TextView tvMsg = dialogMessage.findViewById(R.id.tvMessageDialog);
+                    dialogMessage.setCancelable(true);
+                    dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    if(name.equals("")){
+                        tvMsg.setText("Họ tên không được để trống!");
+                        dialogMessage.show();
+                    }else if (email.equals("")){
+                        tvMsg.setText("Email không được để trống!");
+                        dialogMessage.show();
+                    }else if (phonenumber.equals("")){
+                        tvMsg.setText("Số điện thoại không được để trống!");
+                        dialogMessage.show();
+                    }else if (!isValidatePhoneNumber(phonenumber)){
+                        tvMsg.setText("Số điện thoại không phù hợp!\nBắt đầu từ số 0 và gồm 10 số!");
+                        dialogMessage.show();
+                    }else if (username.equals("")){
+                        tvMsg.setText("Tên tài khoản không được để trống!");
+                        dialogMessage.show();
+                    }else if(password.equals("")){
+                        tvMsg.setText("Mật khẩu không được để trống!");
+                        dialogMessage.show();
+                    }else if(password.length()<8){
+                        tvMsg.setText("Mật khẩu phải ít nhất 8 ký tự!");
+                        dialogMessage.show();
+                    }else if (birth.equals("")){
+                        tvMsg.setText("Năm sinh không được để trống!");
+                        dialogMessage.show();
+                    }else if (!isValidateBirth(birth)){
+                        tvMsg.setText("Năm sinh không phù hợp!\nVui lòng nhập lại như mẫu: 1990!");
+                        dialogMessage.show();
+                    }else if(gender.equals("")){
+                        tvMsg.setText("Giới tính không được để trống!");
+                        dialogMessage.show();
+                    }
                 }
                 break;
             case R.id.btnSignIn_SUp:
@@ -195,4 +233,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(intent);
         finish();
     }
+    public boolean isValidateBirth(String value) {
+        String BirthPattern = "\\d{4}";
+        int check = Integer.parseInt(value);
+        Boolean isTrue = value.matches(BirthPattern);
+        if (check < 1900 || check > Calendar.getInstance().get(Calendar.YEAR)){
+            isTrue = false;
+        }
+        return isTrue; }
+    public boolean isValidatePhoneNumber(String value) {
+        String BirthPattern = "0\\d{9}";
+        Boolean isTrue = value.matches(BirthPattern);
+        return isTrue; }
 }

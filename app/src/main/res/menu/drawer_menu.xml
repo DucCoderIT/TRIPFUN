@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_manager_trip"
@@ -21,7 +20,6 @@
             android:icon="@drawable/ic_info_black_24dp"
             android:title="Thông tin ứng dụng" />
     </group>
-
     <item android:title="Chức năng">
         <menu>
             <item

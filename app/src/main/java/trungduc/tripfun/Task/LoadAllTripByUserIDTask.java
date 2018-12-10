@@ -37,7 +37,7 @@ public class LoadAllTripByUserIDTask extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Please wait...");
+        pDialog.setMessage("Vui lòng đợi...");
         pDialog.setCancelable(false);
         pDialog.show();
     }
